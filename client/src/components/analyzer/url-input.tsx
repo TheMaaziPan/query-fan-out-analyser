@@ -2,17 +2,19 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Play, CheckCircle, Upload } from "lucide-react";
+import { Play, CheckCircle } from "lucide-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
+import BatchUpload from "./batch-upload";
 
 interface UrlInputProps {
   onAnalysisStart: (analysisId: number) => void;
+  onBatchStart: (batchId: string) => void;
   disabled?: boolean;
 }
 
-export default function UrlInput({ onAnalysisStart, disabled }: UrlInputProps) {
+export default function UrlInput({ onAnalysisStart, onBatchStart, disabled }: UrlInputProps) {
   const [url, setUrl] = useState("");
   const [isValidUrl, setIsValidUrl] = useState(false);
   const { toast } = useToast();
@@ -110,16 +112,12 @@ export default function UrlInput({ onAnalysisStart, disabled }: UrlInputProps) {
       {/* Batch Analysis Section */}
       <div className="pt-6 border-t border-gray-200">
         <h3 className="text-md font-medium text-gray-900 mb-3">Batch Analysis</h3>
-        <Button 
-          variant="outline"
+        <BatchUpload 
+          onBatchStart={onBatchStart}
           disabled={disabled}
-          className="w-full text-sm"
-        >
-          <Upload className="mr-2 h-4 w-4" />
-          Upload URL List
-        </Button>
+        />
         <div className="text-xs text-gray-500 mt-2">
-          Coming soon: Upload CSV files with multiple URLs
+          Analyze up to 50 URLs at once
         </div>
       </div>
     </div>

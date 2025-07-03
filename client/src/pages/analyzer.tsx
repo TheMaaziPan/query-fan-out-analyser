@@ -2,14 +2,18 @@ import { useState } from "react";
 import Header from "@/components/layout/header";
 import UrlInput from "@/components/analyzer/url-input";
 import AnalysisResults from "@/components/analyzer/analysis-results";
+import BatchResults from "@/components/analyzer/batch-results";
 import LoadingModal from "@/components/analyzer/loading-modal";
 import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
 import type { AnalysisResponse } from "@shared/schema";
 
 export default function Analyzer() {
   const [currentAnalysisId, setCurrentAnalysisId] = useState<number | null>(null);
+  const [currentBatchId, setCurrentBatchId] = useState<string | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [viewMode, setViewMode] = useState<"single" | "batch">("single");
 
   // Fetch recent analyses
   const { data: recentAnalyses = [] } = useQuery<AnalysisResponse[]>({
@@ -18,7 +22,16 @@ export default function Analyzer() {
 
   const handleAnalysisStart = (analysisId: number) => {
     setCurrentAnalysisId(analysisId);
+    setCurrentBatchId(null);
+    setViewMode("single");
     setIsAnalyzing(true);
+  };
+
+  const handleBatchStart = (batchId: string) => {
+    setCurrentBatchId(batchId);
+    setCurrentAnalysisId(null);
+    setViewMode("batch");
+    setIsAnalyzing(false);
   };
 
   const handleAnalysisComplete = () => {
@@ -39,6 +52,7 @@ export default function Analyzer() {
                 
                 <UrlInput 
                   onAnalysisStart={handleAnalysisStart}
+                  onBatchStart={handleBatchStart}
                   disabled={isAnalyzing}
                 />
 
@@ -73,10 +87,33 @@ export default function Analyzer() {
 
           {/* Main Content */}
           <div className="lg:col-span-3">
-            <AnalysisResults 
-              analysisId={currentAnalysisId}
-              onAnalysisComplete={handleAnalysisComplete}
-            />
+            {/* View Mode Toggle */}
+            <div className="flex gap-2 mb-6">
+              <Button
+                variant={viewMode === "single" ? "default" : "outline"}
+                size="sm"
+                onClick={() => setViewMode("single")}
+              >
+                Single Analysis
+              </Button>
+              <Button
+                variant={viewMode === "batch" ? "default" : "outline"}
+                size="sm"
+                onClick={() => setViewMode("batch")}
+              >
+                Batch Analysis
+              </Button>
+            </div>
+
+            {/* Results Display */}
+            {viewMode === "single" ? (
+              <AnalysisResults 
+                analysisId={currentAnalysisId}
+                onAnalysisComplete={handleAnalysisComplete}
+              />
+            ) : (
+              <BatchResults batchId={currentBatchId} />
+            )}
           </div>
         </div>
       </div>

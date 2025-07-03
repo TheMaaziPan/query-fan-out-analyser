@@ -19,7 +19,18 @@ export const analyses = pgTable("analyses", {
   queries: jsonb("queries").$type<QueryResult[]>(),
   recommendations: jsonb("recommendations").$type<string[]>(),
   semanticChunksData: jsonb("semantic_chunks_data").$type<SemanticChunk[]>(),
-  status: text("status").notNull().default("pending"), // pending, completed, failed
+  status: text("status").notNull().default("pending"), // pending, scraping, chunking, analyzing, completed, failed
+  batchId: text("batch_id"), // For grouping batch analyses
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const batches = pgTable("batches", {
+  id: text("id").primaryKey(), // UUID
+  name: text("name").notNull(),
+  totalUrls: integer("total_urls").notNull(),
+  completedUrls: integer("completed_urls").notNull().default(0),
+  failedUrls: integer("failed_urls").notNull().default(0),
+  status: text("status").notNull().default("pending"), // pending, processing, completed, failed
   createdAt: timestamp("created_at").defaultNow(),
 });
 
@@ -33,10 +44,16 @@ export const insertAnalysisSchema = createInsertSchema(analyses).omit({
   createdAt: true,
 });
 
+export const insertBatchSchema = createInsertSchema(batches).omit({
+  createdAt: true,
+});
+
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
 export type Analysis = typeof analyses.$inferSelect;
 export type InsertAnalysis = z.infer<typeof insertAnalysisSchema>;
+export type Batch = typeof batches.$inferSelect;
+export type InsertBatch = z.infer<typeof insertBatchSchema>;
 
 // Analysis data types
 export interface QueryResult {
@@ -69,5 +86,22 @@ export interface AnalysisResponse {
   recommendations?: string[];
   semanticChunksData?: SemanticChunk[];
   status: string;
+  batchId?: string;
   createdAt?: Date;
+}
+
+export interface BatchAnalysisRequest {
+  urls: string[];
+  name?: string;
+}
+
+export interface BatchResponse {
+  id: string;
+  name: string;
+  totalUrls: number;
+  completedUrls: number;
+  failedUrls: number;
+  status: string;
+  createdAt?: Date;
+  analyses?: AnalysisResponse[];
 }
