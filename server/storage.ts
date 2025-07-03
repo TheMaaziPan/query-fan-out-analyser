@@ -1,4 +1,6 @@
-import { analyses, type Analysis, type InsertAnalysis, users, type User, type InsertUser } from "@shared/schema";
+import { users, type User, type InsertUser, analyses, type Analysis, type InsertAnalysis } from "@shared/schema";
+import { db } from "./db";
+import { eq, desc } from "drizzle-orm";
 
 export interface IStorage {
   getUser(id: number): Promise<User | undefined>;
@@ -13,71 +15,58 @@ export interface IStorage {
   getRecentAnalyses(limit?: number): Promise<Analysis[]>;
 }
 
-export class MemStorage implements IStorage {
-  private users: Map<number, User>;
-  private analyses: Map<number, Analysis>;
-  currentUserId: number;
-  currentAnalysisId: number;
-
-  constructor() {
-    this.users = new Map();
-    this.analyses = new Map();
-    this.currentUserId = 1;
-    this.currentAnalysisId = 1;
-  }
-
+export class DatabaseStorage implements IStorage {
   async getUser(id: number): Promise<User | undefined> {
-    return this.users.get(id);
+    const [user] = await db.select().from(users).where(eq(users.id, id));
+    return user || undefined;
   }
 
   async getUserByUsername(username: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find(
-      (user) => user.username === username,
-    );
+    const [user] = await db.select().from(users).where(eq(users.username, username));
+    return user || undefined;
   }
 
   async createUser(insertUser: InsertUser): Promise<User> {
-    const id = this.currentUserId++;
-    const user: User = { ...insertUser, id };
-    this.users.set(id, user);
+    const [user] = await db
+      .insert(users)
+      .values(insertUser)
+      .returning();
     return user;
   }
 
   async createAnalysis(insertAnalysis: InsertAnalysis): Promise<Analysis> {
-    const id = this.currentAnalysisId++;
-    const analysis: Analysis = { 
-      ...insertAnalysis, 
-      id, 
-      createdAt: new Date() 
-    };
-    this.analyses.set(id, analysis);
+    const [analysis] = await db
+      .insert(analyses)
+      .values(insertAnalysis)
+      .returning();
     return analysis;
   }
 
   async getAnalysis(id: number): Promise<Analysis | undefined> {
-    return this.analyses.get(id);
+    const [analysis] = await db.select().from(analyses).where(eq(analyses.id, id));
+    return analysis || undefined;
   }
 
   async getAnalysesByStatus(status: string): Promise<Analysis[]> {
-    return Array.from(this.analyses.values()).filter(
-      (analysis) => analysis.status === status
-    );
+    return await db.select().from(analyses).where(eq(analyses.status, status));
   }
 
   async updateAnalysis(id: number, updates: Partial<InsertAnalysis>): Promise<Analysis | undefined> {
-    const existing = this.analyses.get(id);
-    if (!existing) return undefined;
-    
-    const updated: Analysis = { ...existing, ...updates };
-    this.analyses.set(id, updated);
-    return updated;
+    const [updated] = await db
+      .update(analyses)
+      .set(updates)
+      .where(eq(analyses.id, id))
+      .returning();
+    return updated || undefined;
   }
 
   async getRecentAnalyses(limit: number = 10): Promise<Analysis[]> {
-    return Array.from(this.analyses.values())
-      .sort((a, b) => (b.createdAt?.getTime() || 0) - (a.createdAt?.getTime() || 0))
-      .slice(0, limit);
+    return await db
+      .select()
+      .from(analyses)
+      .orderBy(desc(analyses.createdAt))
+      .limit(limit);
   }
 }
 
-export const storage = new MemStorage();
+export const storage = new DatabaseStorage();

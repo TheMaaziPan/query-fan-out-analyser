@@ -149,7 +149,7 @@ async function performAnalysis(analysisId: number, url: string): Promise<void> {
       primaryEntity: analysisResult.primaryEntity,
       semanticChunks: semanticChunks.length,
       queryCoverage: `${analysisResult.queries.filter(q => q.coverage === "Yes").length}/${analysisResult.queries.length}`,
-      coverageScore: analysisResult.coverageScore,
+      coverageScore: Math.round(analysisResult.coverageScore), // Ensure integer
       queries: analysisResult.queries,
       recommendations: analysisResult.recommendations,
       semanticChunksData: analysisResult.semanticChunks,

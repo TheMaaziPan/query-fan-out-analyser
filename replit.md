@@ -25,8 +25,8 @@ The Query Fan-Out Analyzer is a full-stack web application that analyzes web pag
 - **Primary Database**: PostgreSQL with the following schema:
   - `users` table for user authentication
   - `analyses` table for storing analysis results with JSONB fields for complex data
+- **Database Integration**: DatabaseStorage class using Drizzle ORM for type-safe operations
 - **Session Storage**: PostgreSQL session store using connect-pg-simple
-- **In-Memory Fallback**: MemStorage class for development/testing scenarios
 
 ## Key Components
 
@@ -113,6 +113,7 @@ The Query Fan-Out Analyzer is a full-stack web application that analyzes web pag
 ```
 Changelog:
 - July 03, 2025. Initial setup
+- July 03, 2025. Added PostgreSQL database integration, migrated from in-memory storage to DatabaseStorage with Drizzle ORM
 ```
 
 ## User Preferences
