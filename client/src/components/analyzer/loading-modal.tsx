@@ -23,7 +23,7 @@ export default function LoadingModal({ isOpen, analysisId }: LoadingModalProps) 
       case 'chunking':
         return 'Identifying semantic chunks...';
       case 'analyzing':
-        return 'Processing with Gemini AI...';
+        return 'Processing with AI...';
       default:
         return 'Processing...';
     }
@@ -68,7 +68,7 @@ export default function LoadingModal({ isOpen, analysisId }: LoadingModalProps) 
           Analysing Content...
         </DialogTitle>
         <DialogDescription className="text-sm text-gray-600 text-center">
-          {analysis ? getStatusMessage(analysis.status) : 'Processing semantic chunks and generating queries with Gemini AI'}
+          {analysis ? getStatusMessage(analysis.status) : 'Processing semantic chunks and generating queries with AI'}
         </DialogDescription>
         <div className="text-center p-6">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
