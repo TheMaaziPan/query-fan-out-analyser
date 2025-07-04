@@ -96,31 +96,7 @@ export default function Analyzer() {
                   disabled={isAnalyzing}
                 />
 
-                {/* Recent Analyses */}
-                <div className="mt-6 pt-6 border-t border-gray-200" data-tooltip="recent-analyses">
-                  <h3 className="text-md font-medium text-gray-900 mb-3">Recent Analyses</h3>
-                  <div className="space-y-2">
-                    {recentAnalyses.length === 0 ? (
-                      <p className="text-sm text-gray-500">No analyses yet</p>
-                    ) : (
-                      recentAnalyses.map((analysis) => (
-                        <div 
-                          key={analysis.id}
-                          className="text-xs p-2 bg-gray-50 rounded border cursor-pointer hover:bg-gray-100"
-                          onClick={() => setCurrentAnalysisId(analysis.id)}
-                        >
-                          <div className="font-medium text-gray-900 truncate">
-                            {analysis.url.length > 30 ? `${analysis.url.substring(0, 30)}...` : analysis.url}
-                          </div>
-                          <div className="text-gray-500 flex justify-between">
-                            <span>{analysis.queryCoverage || 'Processing...'}</span>
-                            <span>{analysis.createdAt ? new Date(analysis.createdAt).toLocaleDateString() : ''}</span>
-                          </div>
-                        </div>
-                      ))
-                    )}
-                  </div>
-                </div>
+
               </CardContent>
             </Card>
           </div>
