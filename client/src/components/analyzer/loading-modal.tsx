@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import type { AnalysisResponse } from "@shared/schema";
 
 interface LoadingModalProps {
@@ -64,12 +64,14 @@ export default function LoadingModal({ isOpen, analysisId }: LoadingModalProps) 
   return (
     <Dialog open={isOpen}>
       <DialogContent className="sm:max-w-md">
+        <DialogTitle className="text-lg font-semibold text-gray-900 text-center">
+          Analyzing Content...
+        </DialogTitle>
+        <DialogDescription className="text-sm text-gray-600 text-center">
+          {analysis ? getStatusMessage(analysis.status) : 'Processing semantic chunks and generating queries with Gemini AI'}
+        </DialogDescription>
         <div className="text-center p-6">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">Analyzing Content...</h3>
-          <p className="text-sm text-gray-600 mb-4">
-            {analysis ? getStatusMessage(analysis.status) : 'Processing semantic chunks and generating queries with Gemini AI'}
-          </p>
           <div className="bg-gray-200 rounded-full h-2 mb-2">
             <div 
               className="bg-primary h-2 rounded-full transition-all duration-500"
