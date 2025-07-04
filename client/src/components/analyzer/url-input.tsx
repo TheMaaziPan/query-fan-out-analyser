@@ -76,42 +76,76 @@ export default function UrlInput({ onAnalysisStart, onBatchStart, disabled }: Ur
 
   return (
     <div className="space-y-4">
-      <div>
-        <Label htmlFor="url-input" className="block text-sm font-medium text-gray-700 mb-2">
-          Enter URL to Analyse
-        </Label>
-        <div className="relative">
+      {/* Quick Add Pills */}
+      <div className="mb-4">
+        <div className="text-xs text-gray-500 mb-2">Quick add:</div>
+        <div className="flex flex-wrap gap-1">
+          {['New Look', 'Primark', 'Urban Outfitters', 'Accessorize', 'Hush', 'Monsoon'].map((brand) => (
+            <button
+              key={brand}
+              onClick={() => handleUrlChange(`https://${brand.toLowerCase().replace(' ', '')}.com`)}
+              className="px-2 py-1 text-xs bg-gray-100 text-gray-600 rounded hover:bg-gray-200 transition-colors"
+            >
+              {brand}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="grid grid-cols-3 gap-2">
+        <div className="col-span-2">
+          <Label htmlFor="domain-input" className="block text-xs font-medium text-gray-700 mb-1">
+            Domain or Brand Name
+          </Label>
           <Input
-            id="url-input"
-            type="url"
-            placeholder="https://example.com/page"
+            id="domain-input"
+            type="text"
+            placeholder="e.g., booking.com"
             value={url}
             onChange={(e) => handleUrlChange(e.target.value)}
             onKeyPress={handleKeyPress}
             disabled={disabled}
-            className="pr-10"
+            className="text-sm h-8"
           />
-          <button 
-            className="absolute right-2 top-2 text-gray-400 hover:text-primary"
-            onClick={() => url && validateUrl(url)}
-          >
-            <CheckCircle className={`h-5 w-5 ${isValidUrl ? 'text-green-500' : 'text-gray-400'}`} />
-          </button>
+        </div>
+        <div>
+          <Label htmlFor="industry" className="block text-xs font-medium text-gray-700 mb-1">
+            Industry
+          </Label>
+          <select className="w-full h-8 text-xs border border-gray-300 rounded-md px-2 bg-white">
+            <option>Fashion & Retail</option>
+            <option>Technology</option>
+            <option>Travel</option>
+            <option>Finance</option>
+          </select>
         </div>
       </div>
       
-      <Button 
-        onClick={handleSubmit}
-        disabled={!url || !isValidUrl || disabled || startAnalysisMutation.isPending}
-        className="w-full bg-primary text-white hover:bg-blue-700"
-      >
-        <Play className="mr-2 h-4 w-4" />
-        {startAnalysisMutation.isPending ? "Starting..." : "Start Analysis"}
-      </Button>
+      <div className="flex gap-2">
+        <Button 
+          onClick={handleSubmit}
+          disabled={!url || disabled || startAnalysisMutation.isPending}
+          className="flex-1 bg-gray-800 text-white hover:bg-gray-900 h-8 text-xs"
+        >
+          {startAnalysisMutation.isPending ? "Adding..." : "Add Domain"}
+        </Button>
+        <Button 
+          onClick={handleSubmit}
+          disabled={!url || disabled || startAnalysisMutation.isPending}
+          className="flex-1 bg-gray-800 text-white hover:bg-gray-900 h-8 text-xs"
+        >
+          Run Analysis
+        </Button>
+        <Button 
+          variant="outline"
+          className="px-3 h-8 text-xs"
+        >
+          Clear All
+        </Button>
+      </div>
 
       {/* Batch Analysis Section */}
-      <div className="pt-6 border-t border-gray-200">
-        <h3 className="text-md font-medium text-gray-900 mb-3">Batch Analysis</h3>
+      <div className="pt-4 border-t border-gray-200">
         <BatchUpload 
           onBatchStart={onBatchStart}
           disabled={disabled}

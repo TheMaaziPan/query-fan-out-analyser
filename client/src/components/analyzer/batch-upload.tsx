@@ -107,9 +107,9 @@ export default function BatchUpload({ onBatchStart, disabled }: BatchUploadProps
         <Button 
           variant="outline"
           disabled={disabled}
-          className="w-full text-sm"
+          className="w-full text-xs h-8"
         >
-          <Upload className="mr-2 h-4 w-4" />
+          <Upload className="mr-1 h-3 w-3" />
           Batch Analysis
         </Button>
       </DialogTrigger>
