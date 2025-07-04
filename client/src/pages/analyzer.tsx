@@ -87,7 +87,7 @@ export default function Analyzer() {
           <div className="lg:col-span-1">
             <Card>
               <CardContent className="p-6">
-                <h2 className="text-lg font-semibold text-gray-900 mb-4">AI Analysis Queue</h2>
+
                 
                 <UrlInput 
                   onAnalysisStart={handleAnalysisStart}
