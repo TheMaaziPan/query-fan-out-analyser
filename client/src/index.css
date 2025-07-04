@@ -80,25 +80,73 @@
 
   /* Enhanced button styling with brand colors */
   .btn-brand-primary {
-    background-color: #ccff00;
-    color: #07262c;
-    border: 1px solid #ccff00;
+    background-color: #ccff00 !important;
+    color: #07262c !important;
+    border: 1px solid #ccff00 !important;
   }
   
   .btn-brand-primary:hover {
-    background-color: #b8e600;
-    border-color: #b8e600;
+    background-color: #b8e600 !important;
+    border-color: #b8e600 !important;
   }
   
   .btn-brand-secondary {
-    background-color: #7b7b7b;
-    color: #ffffff;
-    border: 1px solid #7b7b7b;
+    background-color: #7b7b7b !important;
+    color: #ffffff !important;
+    border: 1px solid #7b7b7b !important;
   }
   
   .btn-brand-secondary:hover {
-    background-color: #666666;
-    border-color: #666666;
+    background-color: #666666 !important;
+    border-color: #666666 !important;
+  }
+  
+  /* Force lime green on all default buttons */
+  button[class*="bg-primary"],
+  .bg-primary,
+  button:not([class*="outline"]):not([class*="ghost"]):not([class*="link"]):not([class*="secondary"]):not([class*="destructive"]) {
+    background-color: #ccff00 !important;
+    color: #07262c !important;
+    border-color: #ccff00 !important;
+  }
+  
+  button[class*="bg-primary"]:hover,
+  .bg-primary:hover,
+  button:not([class*="outline"]):not([class*="ghost"]):not([class*="link"]):not([class*="secondary"]):not([class*="destructive"]):hover {
+    background-color: #b8e600 !important;
+    border-color: #b8e600 !important;
+  }
+  
+  /* Outline buttons with lime accent */
+  button[class*="outline"] {
+    border-color: #ccff00 !important;
+    color: #07262c !important;
+    background-color: transparent !important;
+  }
+  
+  button[class*="outline"]:hover {
+    background-color: #ccff00 !important;
+    color: #07262c !important;
+  }
+  
+  /* Catch all button variants with lime green */
+  .btn,
+  [role="button"],
+  button {
+    --tw-bg-opacity: 1 !important;
+  }
+  
+  /* Specific button classes that might be purple */
+  button[data-state],
+  button[data-radix-collection-item],
+  .relative.inline-flex,
+  [class*="inline-flex"][class*="items-center"][class*="justify-center"] {
+    background-color: #ccff00 !important;
+    color: #07262c !important;
+  }
+  
+  [class*="inline-flex"][class*="items-center"][class*="justify-center"]:hover {
+    background-color: #b8e600 !important;
   }
   
   .text-primary {
