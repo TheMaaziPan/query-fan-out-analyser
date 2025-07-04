@@ -29,9 +29,9 @@
   
   /* Custom colors for the query analyzer */
   --surface: hsl(0, 0%, 100%);
-  --success: hsl(142, 76%, 36%);
-  --warning: hsl(32, 95%, 44%);
-  --error: hsl(0, 84%, 60%);
+  --success: #ccff00;
+  --warning: #7b7b7b;
+  --error: #d32f2f;
 }
 
 .dark {
@@ -45,21 +45,21 @@
   --card-foreground: hsl(0, 0%, 98%);
   --border: hsl(240, 3.7%, 15.9%);
   --input: hsl(240, 3.7%, 15.9%);
-  --primary: hsl(207, 90%, 54%);
-  --primary-foreground: hsl(0, 0%, 100%);
-  --secondary: hsl(240, 3.7%, 15.9%);
-  --secondary-foreground: hsl(0, 0%, 98%);
-  --accent: hsl(240, 3.7%, 15.9%);
-  --accent-foreground: hsl(0, 0%, 98%);
-  --destructive: hsl(0, 62.8%, 30.6%);
-  --destructive-foreground: hsl(0, 0%, 98%);
+  --primary: #07262c;
+  --primary-foreground: #ccff00;
+  --secondary: #7b7b7b;
+  --secondary-foreground: #ffffff;
+  --accent: #ccff00;
+  --accent-foreground: #07262c;
+  --destructive: #d32f2f;
+  --destructive-foreground: #ffffff;
   --ring: hsl(240, 4.9%, 83.9%);
   
   /* Dark mode custom colors */
   --surface: hsl(240, 10%, 3.9%);
-  --success: hsl(142, 76%, 36%);
-  --warning: hsl(32, 95%, 44%);
-  --error: hsl(0, 84%, 60%);
+  --success: #ccff00;
+  --warning: #7b7b7b;
+  --error: #d32f2f;
 }
 
 @layer base {
@@ -76,6 +76,29 @@
 @layer utilities {
   .bg-surface {
     background-color: var(--surface);
+  }
+
+  /* Enhanced button styling with brand colors */
+  .btn-brand-primary {
+    background-color: #ccff00;
+    color: #07262c;
+    border: 1px solid #ccff00;
+  }
+  
+  .btn-brand-primary:hover {
+    background-color: #b8e600;
+    border-color: #b8e600;
+  }
+  
+  .btn-brand-secondary {
+    background-color: #7b7b7b;
+    color: #ffffff;
+    border: 1px solid #7b7b7b;
+  }
+  
+  .btn-brand-secondary:hover {
+    background-color: #666666;
+    border-color: #666666;
   }
   
   .text-primary {
