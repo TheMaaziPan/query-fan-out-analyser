@@ -86,4 +86,23 @@
   .hover\:bg-blue-700:hover {
     background-color: hsl(207, 90%, 45%);
   }
+
+  /* Tooltip guide styles */
+  .tooltip-highlight {
+    position: relative;
+    z-index: 51;
+    border: 2px solid hsl(var(--primary)) !important;
+    border-radius: 8px;
+    box-shadow: 0 0 0 4px hsla(var(--primary), 0.2) !important;
+    animation: tooltip-pulse 2s infinite;
+  }
+
+  @keyframes tooltip-pulse {
+    0%, 100% {
+      box-shadow: 0 0 0 4px hsla(var(--primary), 0.2);
+    }
+    50% {
+      box-shadow: 0 0 0 8px hsla(var(--primary), 0.1);
+    }
+  }
 }

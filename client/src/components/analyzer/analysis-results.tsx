@@ -144,7 +144,7 @@ export default function AnalysisResults({ analysisId, onAnalysisComplete }: Anal
               <div className="text-xs text-gray-500 mt-1">Semantic Chunks</div>
             </div>
             
-            <div className="text-center p-4 bg-orange-50 rounded-lg">
+            <div className="text-center p-4 bg-orange-50 rounded-lg" data-tooltip="coverage-score">
               <div className="text-3xl font-bold text-orange-600">{analysis.queryCoverage || '0/0'}</div>
               <div className="text-xs text-gray-500 mt-1">Query Coverage</div>
             </div>
@@ -166,12 +166,14 @@ export default function AnalysisResults({ analysisId, onAnalysisComplete }: Anal
 
       {/* Query Coverage */}
       {analysis.queries && (
-        <QueryCoverage queries={analysis.queries} />
+        <div data-tooltip="query-list">
+          <QueryCoverage queries={analysis.queries} />
+        </div>
       )}
 
       {/* Recommendations */}
       {analysis.recommendations && analysis.recommendations.length > 0 && (
-        <Card>
+        <Card data-tooltip="recommendations">
           <CardContent className="p-6">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">Optimization Recommendations</h3>
             <div className="space-y-4">
@@ -190,7 +192,7 @@ export default function AnalysisResults({ analysisId, onAnalysisComplete }: Anal
 
       {/* Semantic Chunks */}
       {analysis.semanticChunksData && analysis.semanticChunksData.length > 0 && (
-        <Card>
+        <Card data-tooltip="semantic-chunks">
           <CardContent className="p-6">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">Semantic Chunks Detected</h3>
             <div className="overflow-x-auto">

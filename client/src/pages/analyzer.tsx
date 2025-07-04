@@ -6,6 +6,9 @@ import BatchResults from "@/components/analyzer/batch-results";
 import LoadingModal from "@/components/analyzer/loading-modal";
 import CompetitorComparison from "@/components/analyzer/competitor-comparison";
 import CompetitorResults from "@/components/analyzer/competitor-results";
+import TooltipGuide, { useTooltipGuide } from "@/components/ui/tooltip-guide";
+import HelpButton from "@/components/ui/help-button";
+import { analyzerTooltipSteps } from "@/data/tooltip-steps";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
@@ -17,6 +20,9 @@ export default function Analyzer() {
   const [currentComparisonId, setCurrentComparisonId] = useState<string | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [viewMode, setViewMode] = useState<"single" | "batch" | "comparison">("single");
+
+  // Tooltip guide state
+  const { isFirstVisit, showGuide, startGuide, closeGuide, completeGuide } = useTooltipGuide();
 
   // Fetch recent analyses
   const { data: recentAnalyses = [] } = useQuery<AnalysisResponse[]>({
@@ -55,6 +61,26 @@ export default function Analyzer() {
       <Header />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Page Header */}
+        <div className="text-center mb-8">
+          <div className="flex items-center justify-center gap-4 mb-4">
+            <h1 
+              className="text-4xl font-bold text-gray-900"
+              data-tooltip="main-title"
+            >
+              What do LLMs look for on my webpage?
+            </h1>
+            <HelpButton 
+              onClick={startGuide}
+              showBadge={isFirstVisit}
+            />
+          </div>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            Predict how Google's AI Mode breaks down your content into sub-queries. 
+            Identify coverage gaps and get optimisation recommendations for better search visibility.
+          </p>
+        </div>
+
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* Sidebar */}
           <div className="lg:col-span-1">
@@ -70,7 +96,7 @@ export default function Analyzer() {
                 />
 
                 {/* Recent Analyses */}
-                <div className="mt-6 pt-6 border-t border-gray-200">
+                <div className="mt-6 pt-6 border-t border-gray-200" data-tooltip="recent-analyses">
                   <h3 className="text-md font-medium text-gray-900 mb-3">Recent Analyses</h3>
                   <div className="space-y-2">
                     {recentAnalyses.length === 0 ? (
@@ -101,7 +127,7 @@ export default function Analyzer() {
           {/* Main Content */}
           <div className="lg:col-span-3">
             {/* View Mode Toggle */}
-            <div className="flex gap-2 mb-6">
+            <div className="flex gap-2 mb-6" data-tooltip="view-toggle">
               <Button
                 variant={viewMode === "single" ? "default" : "outline"}
                 size="sm"
@@ -126,20 +152,22 @@ export default function Analyzer() {
             </div>
 
             {/* Results Display */}
-            {viewMode === "single" && (
-              <AnalysisResults 
-                analysisId={currentAnalysisId}
-                onAnalysisComplete={handleAnalysisComplete}
-              />
-            )}
+            <div data-tooltip="results-area">
+              {viewMode === "single" && (
+                <AnalysisResults 
+                  analysisId={currentAnalysisId}
+                  onAnalysisComplete={handleAnalysisComplete}
+                />
+              )}
 
-            {viewMode === "batch" && (
-              <BatchResults batchId={currentBatchId} />
-            )}
+              {viewMode === "batch" && (
+                <BatchResults batchId={currentBatchId} />
+              )}
 
-            {viewMode === "comparison" && (
-              <CompetitorResults comparisonId={currentComparisonId} />
-            )}
+              {viewMode === "comparison" && (
+                <CompetitorResults comparisonId={currentComparisonId} />
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -147,6 +175,14 @@ export default function Analyzer() {
       <LoadingModal 
         isOpen={isAnalyzing}
         analysisId={currentAnalysisId}
+      />
+      
+      {/* Tooltip Guide */}
+      <TooltipGuide
+        steps={analyzerTooltipSteps}
+        isOpen={showGuide}
+        onClose={closeGuide}
+        onComplete={completeGuide}
       />
     </div>
   );

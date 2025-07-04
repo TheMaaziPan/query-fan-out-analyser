@@ -92,6 +92,7 @@ export default function UrlInput({ onAnalysisStart, onBatchStart, onComparisonSt
             onKeyPress={handleKeyPress}
             disabled={disabled}
             className="pr-10"
+            data-tooltip="url-input"
           />
           <button 
             className="absolute right-2 top-2 text-gray-400 hover:text-primary"
@@ -106,6 +107,7 @@ export default function UrlInput({ onAnalysisStart, onBatchStart, onComparisonSt
         onClick={handleSubmit}
         disabled={!url || !isValidUrl || disabled || startAnalysisMutation.isPending}
         className="w-full bg-primary text-white hover:bg-blue-700"
+        data-tooltip="start-button"
       >
         <Play className="mr-2 h-4 w-4" />
         {startAnalysisMutation.isPending ? "Starting..." : "Start Analysis"}
@@ -115,14 +117,18 @@ export default function UrlInput({ onAnalysisStart, onBatchStart, onComparisonSt
       <div className="pt-6 border-t border-gray-200">
         <h3 className="text-md font-medium text-gray-900 mb-3">Batch Analysis</h3>
         <div className="space-y-3">
-          <BatchUpload 
-            onBatchStart={onBatchStart}
-            disabled={disabled}
-          />
-          <CompetitorComparison 
-            onComparisonStart={onComparisonStart}
-            disabled={disabled}
-          />
+          <div data-tooltip="batch-upload">
+            <BatchUpload 
+              onBatchStart={onBatchStart}
+              disabled={disabled}
+            />
+          </div>
+          <div data-tooltip="competitor-comparison">
+            <CompetitorComparison 
+              onComparisonStart={onComparisonStart}
+              disabled={disabled}
+            />
+          </div>
         </div>
         <div className="text-xs text-gray-500 mt-2">
           Analyse up to 50 URLs at once or compare up to 10 competitors
