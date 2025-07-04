@@ -122,6 +122,8 @@ Changelog:
 - July 03, 2025. Added PostgreSQL database integration, migrated from in-memory storage to DatabaseStorage with Drizzle ORM
 - July 03, 2025. Implemented batch URL analysis feature with parallel processing, progress tracking, and CSV export capabilities
 - July 04, 2025. Added competitor comparison analysis feature with multi-URL comparison, content gap identification, and competitive intelligence insights
+- July 04, 2025. Implemented mobile-responsive design with adaptive sidebar/mobile layouts and MediaVision branding
+- July 04, 2025. Added hover tooltips throughout the interface to help users understand tool functionality and features
 ```
 
 ## User Preferences

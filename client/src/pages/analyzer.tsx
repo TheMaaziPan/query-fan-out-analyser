@@ -8,6 +8,7 @@ import CompetitorComparison from "@/components/analyzer/competitor-comparison";
 import CompetitorResults from "@/components/analyzer/competitor-results";
 import TooltipGuide, { useTooltipGuide } from "@/components/ui/tooltip-guide";
 import HelpButton from "@/components/ui/help-button";
+import TooltipHover from "@/components/ui/tooltip-hover";
 
 import { analyzerTooltipSteps } from "@/data/tooltip-steps";
 import { Card, CardContent } from "@/components/ui/card";
@@ -114,27 +115,33 @@ export default function Analyzer() {
             </div>
             {/* View Mode Toggle */}
             <div className="flex gap-2 mb-6" data-tooltip="view-toggle">
-              <Button
-                variant={viewMode === "single" ? "default" : "outline"}
-                size="sm"
-                onClick={() => setViewMode("single")}
-              >
-                Single AI Analysis
-              </Button>
-              <Button
-                variant={viewMode === "batch" ? "default" : "outline"}
-                size="sm"
-                onClick={() => setViewMode("batch")}
-              >
-                Batch AI Analysis
-              </Button>
-              <Button
-                variant={viewMode === "comparison" ? "default" : "outline"}
-                size="sm"
-                onClick={() => setViewMode("comparison")}
-              >
-                Competitor Comparison
-              </Button>
+              <TooltipHover content="View results from individual webpage analysis">
+                <Button
+                  variant={viewMode === "single" ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setViewMode("single")}
+                >
+                  Single AI Analysis
+                </Button>
+              </TooltipHover>
+              <TooltipHover content="View results from bulk analysis of multiple webpages">
+                <Button
+                  variant={viewMode === "batch" ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setViewMode("batch")}
+                >
+                  Batch AI Analysis
+                </Button>
+              </TooltipHover>
+              <TooltipHover content="View side-by-side comparison of competitor websites">
+                <Button
+                  variant={viewMode === "comparison" ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setViewMode("comparison")}
+                >
+                  Competitor Comparison
+                </Button>
+              </TooltipHover>
             </div>
 
             {/* Results Display */}
