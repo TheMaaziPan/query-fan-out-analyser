@@ -58,51 +58,47 @@ export default function Analyzer() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
-      
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Page Header */}
-        <div className="text-center mb-8">
-          <div className="flex items-center justify-center gap-4 mb-4">
-            <h1 
-              className="text-4xl font-bold text-gray-900"
-              data-tooltip="main-title"
-            >
-              What do LLMs look for on my webpage?
-            </h1>
-            <HelpButton 
-              onClick={startGuide}
-              showBadge={isFirstVisit}
+    <>
+      <div className="min-h-screen bg-background">
+        <Header />
+        
+        {/* Fixed Sidebar */}
+        <div 
+          className="w-80 fixed left-0 top-16 bottom-0 overflow-y-auto z-40"
+          style={{ backgroundColor: '#07262c' }}
+        >
+          <div className="p-6">
+            <UrlInput 
+              onAnalysisStart={handleAnalysisStart}
+              onBatchStart={handleBatchStart}
+              onComparisonStart={handleComparisonStart}
+              disabled={isAnalyzing}
             />
           </div>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Predict how Google's AI Mode breaks down your content into sub-queries. 
-            Identify coverage gaps and get optimisation recommendations for better search visibility.
-          </p>
         </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          {/* Sidebar */}
-          <div className="lg:col-span-1">
-            <Card>
-              <CardContent className="p-6">
-
-                
-                <UrlInput 
-                  onAnalysisStart={handleAnalysisStart}
-                  onBatchStart={handleBatchStart}
-                  onComparisonStart={handleComparisonStart}
-                  disabled={isAnalyzing}
+        
+        {/* Main Content with left margin for sidebar */}
+        <div className="ml-80">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            {/* Page Header */}
+            <div className="text-center mb-8">
+              <div className="flex items-center justify-center gap-4 mb-4">
+                <h1 
+                  className="text-4xl font-bold text-gray-900"
+                  data-tooltip="main-title"
+                >
+                  What do LLMs look for on my webpage?
+                </h1>
+                <HelpButton 
+                  onClick={startGuide}
+                  showBadge={isFirstVisit}
                 />
-
-
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Main Content */}
-          <div className="lg:col-span-3">
+              </div>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                Predict how Google's AI Mode breaks down your content into sub-queries. 
+                Identify coverage gaps and get optimisation recommendations for better search visibility.
+              </p>
+            </div>
             {/* View Mode Toggle */}
             <div className="flex gap-2 mb-6" data-tooltip="view-toggle">
               <Button
@@ -148,7 +144,7 @@ export default function Analyzer() {
           </div>
         </div>
       </div>
-
+      
       <LoadingModal 
         isOpen={isAnalyzing}
         analysisId={currentAnalysisId}
@@ -161,8 +157,6 @@ export default function Analyzer() {
         onClose={closeGuide}
         onComplete={completeGuide}
       />
-      
-
-    </div>
+    </>
   );
 }

@@ -79,7 +79,7 @@ export default function UrlInput({ onAnalysisStart, onBatchStart, onComparisonSt
   return (
     <div className="space-y-4">
       <div>
-        <Label htmlFor="url-input" className="block text-sm font-medium text-gray-700 mb-2">
+        <Label htmlFor="url-input" className="block text-sm font-medium text-white mb-2">
           Enter URL to Analyse
         </Label>
         <div className="relative">
