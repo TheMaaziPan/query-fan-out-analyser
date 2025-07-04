@@ -54,6 +54,12 @@ The Query Fan-Out Analyzer is a full-stack web application that analyzes web pag
 - WebSocket-like polling for real-time progress feedback
 - Graceful error handling and recovery mechanisms
 
+### Competitor Comparison Engine
+- Multi-URL simultaneous analysis for competitive intelligence
+- Content gap identification between competitors
+- Unique content strength analysis per competitor
+- Comparative query coverage scoring and recommendations
+
 ## Data Flow
 
 1. **User Input**: URL submission through the frontend interface
@@ -115,6 +121,7 @@ Changelog:
 - July 03, 2025. Initial setup
 - July 03, 2025. Added PostgreSQL database integration, migrated from in-memory storage to DatabaseStorage with Drizzle ORM
 - July 03, 2025. Implemented batch URL analysis feature with parallel processing, progress tracking, and CSV export capabilities
+- July 04, 2025. Added competitor comparison analysis feature with multi-URL comparison, content gap identification, and competitive intelligence insights
 ```
 
 ## User Preferences
