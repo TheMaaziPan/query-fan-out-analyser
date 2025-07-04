@@ -12,7 +12,7 @@ interface BatchResultsProps {
 
 export default function BatchResults({ batchId }: BatchResultsProps) {
   const { data: batch, isLoading } = useQuery<BatchResponse>({
-    queryKey: ["/api/batch", batchId],
+    queryKey: ["/api/batch/" + batchId],
     enabled: !!batchId,
     refetchInterval: 3000, // Poll every 3 seconds for now
   });

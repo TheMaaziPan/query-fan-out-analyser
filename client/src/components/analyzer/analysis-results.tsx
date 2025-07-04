@@ -14,12 +14,9 @@ interface AnalysisResultsProps {
 
 export default function AnalysisResults({ analysisId, onAnalysisComplete }: AnalysisResultsProps) {
   const { data: analysis, isLoading } = useQuery<AnalysisResponse>({
-    queryKey: ["/api/analysis", analysisId],
+    queryKey: ["/api/analysis/" + analysisId],
     enabled: !!analysisId,
-    refetchInterval: (data) => {
-      return data?.status === "pending" || data?.status === "scraping" || 
-             data?.status === "chunking" || data?.status === "analyzing" ? 2000 : false;
-    },
+    refetchInterval: 2000,
   });
 
   useEffect(() => {

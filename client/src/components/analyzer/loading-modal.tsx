@@ -9,7 +9,7 @@ interface LoadingModalProps {
 
 export default function LoadingModal({ isOpen, analysisId }: LoadingModalProps) {
   const { data: analysis } = useQuery<AnalysisResponse>({
-    queryKey: ["/api/analysis", analysisId],
+    queryKey: ["/api/analysis/" + analysisId],
     enabled: !!analysisId && isOpen,
     refetchInterval: 2000,
   });

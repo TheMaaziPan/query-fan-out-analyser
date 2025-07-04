@@ -114,6 +114,7 @@ The Query Fan-Out Analyzer is a full-stack web application that analyzes web pag
 Changelog:
 - July 03, 2025. Initial setup
 - July 03, 2025. Added PostgreSQL database integration, migrated from in-memory storage to DatabaseStorage with Drizzle ORM
+- July 03, 2025. Implemented batch URL analysis feature with parallel processing, progress tracking, and CSV export capabilities
 ```
 
 ## User Preferences
