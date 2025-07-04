@@ -76,33 +76,65 @@ export const analyzerTooltipSteps: TooltipStep[] = [
 
 export const resultsTooltipSteps: TooltipStep[] = [
   {
+    id: "analysis-header",
+    title: "Analysis Complete!",
+    description: "Your webpage has been successfully analyzed. This tool predicts how Google's AI Mode would break down your content into sub-queries.",
+    target: "[data-tooltip='analysis-header']",
+    position: "bottom",
+    highlight: true
+  },
+  {
+    id: "export-buttons",
+    title: "Export Your Results",
+    description: "Download your analysis data as CSV for spreadsheets or JSON for technical use. Perfect for reports and further analysis.",
+    target: "[data-tooltip='export-buttons']",
+    position: "bottom",
+    highlight: true
+  },
+  {
+    id: "analysis-overview",
+    title: "Quick Overview",
+    description: "See key metrics at a glance: your analyzed URL, how many content sections were found, and overall query coverage.",
+    target: "[data-tooltip='analysis-overview']",
+    position: "bottom",
+    highlight: true
+  },
+  {
     id: "coverage-score",
-    title: "Coverage Score",
-    description: "This shows how well your content answers potential search queries. Higher scores mean better AI search visibility.",
+    title: "Query Coverage Score",
+    description: "This fraction shows how many search queries your content fully answers. Higher coverage means better AI search visibility.",
     target: "[data-tooltip='coverage-score']",
+    position: "left",
+    highlight: true
+  },
+  {
+    id: "primary-entity",
+    title: "Main Topic Identified",
+    description: "The AI identified the primary subject of your webpage. This helps understand what your content is mainly about.",
+    target: "[data-tooltip='primary-entity']",
     position: "bottom",
     highlight: true
   },
   {
     id: "query-breakdown",
-    title: "Query Analysis",
-    description: "See which search queries your content fully covers (Yes), partially covers (Partial), or completely misses (No).",
+    title: "Detailed Query Analysis",
+    description: "See exactly which search queries your content covers. Green means full coverage, yellow means partial, red means missing content.",
     target: "[data-tooltip='query-list']",
     position: "right",
     highlight: true
   },
   {
     id: "recommendations",
-    title: "AI Recommendations",
-    description: "Get specific, actionable suggestions to improve your content and capture more search traffic.",
+    title: "AI-Generated Recommendations",
+    description: "Get specific, actionable suggestions to improve your content and capture more search traffic from AI-powered search engines.",
     target: "[data-tooltip='recommendations']",
     position: "left",
     highlight: true
   },
   {
     id: "semantic-chunks",
-    title: "Content Structure",
-    description: "View how the AI breaks down your content into semantic chunks and their potential for generating queries.",
+    title: "Content Structure Analysis",
+    description: "See how the AI breaks down your content into meaningful sections and their potential for generating search queries.",
     target: "[data-tooltip='semantic-chunks']",
     position: "top",
     highlight: true
