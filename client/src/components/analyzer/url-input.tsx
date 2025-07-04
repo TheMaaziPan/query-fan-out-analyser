@@ -14,9 +14,10 @@ interface UrlInputProps {
   onBatchStart: (batchId: string) => void;
   onComparisonStart?: (comparisonId: string) => void;
   disabled?: boolean;
+  variant?: 'sidebar' | 'mobile';
 }
 
-export default function UrlInput({ onAnalysisStart, onBatchStart, onComparisonStart, disabled }: UrlInputProps) {
+export default function UrlInput({ onAnalysisStart, onBatchStart, onComparisonStart, disabled, variant = 'sidebar' }: UrlInputProps) {
   const [url, setUrl] = useState("");
   const [isValidUrl, setIsValidUrl] = useState(false);
   const { toast } = useToast();
@@ -76,10 +77,14 @@ export default function UrlInput({ onAnalysisStart, onBatchStart, onComparisonSt
     }
   };
 
+  const labelColor = variant === 'sidebar' ? 'text-white' : 'text-gray-700';
+  const sectionLabelColor = variant === 'sidebar' ? 'text-white' : 'text-gray-900';
+  const borderColor = variant === 'sidebar' ? 'border-gray-600' : 'border-gray-200';
+
   return (
     <div className="space-y-4">
       <div>
-        <Label htmlFor="url-input" className="block text-sm font-medium text-white mb-2">
+        <Label htmlFor="url-input" className={`block text-sm font-medium ${labelColor} mb-2`}>
           Enter URL to Analyse
         </Label>
         <div className="relative">
@@ -114,8 +119,8 @@ export default function UrlInput({ onAnalysisStart, onBatchStart, onComparisonSt
       </Button>
 
       {/* Batch Analysis Section */}
-      <div className="pt-6 border-t border-gray-200">
-        <h3 className="text-md font-medium text-gray-900 mb-3">Batch Analysis</h3>
+      <div className={`pt-6 border-t ${borderColor}`}>
+        <h3 className={`text-md font-medium ${sectionLabelColor} mb-3`}>Batch Analysis</h3>
         <div className="space-y-3">
           <div data-tooltip="batch-upload">
             <BatchUpload 

@@ -62,9 +62,9 @@ export default function Analyzer() {
       <div className="min-h-screen bg-background">
         <Header />
         
-        {/* Fixed Sidebar */}
+        {/* Fixed Sidebar - Hidden on mobile, visible on desktop */}
         <div 
-          className="w-80 fixed left-0 top-16 bottom-0 overflow-y-auto z-40"
+          className="w-80 fixed left-0 top-16 bottom-0 overflow-y-auto z-40 hidden lg:block"
           style={{ backgroundColor: '#07262c' }}
         >
           <div className="p-6">
@@ -77,14 +77,27 @@ export default function Analyzer() {
           </div>
         </div>
         
-        {/* Main Content with left margin for sidebar */}
-        <div className="ml-80">
+        {/* Main Content with responsive margins */}
+        <div className="lg:ml-80">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            {/* Mobile URL Input - Only visible on mobile */}
+            <div className="lg:hidden mb-8">
+              <div className="bg-white rounded-lg shadow-sm border p-6">
+                <UrlInput 
+                  onAnalysisStart={handleAnalysisStart}
+                  onBatchStart={handleBatchStart}
+                  onComparisonStart={handleComparisonStart}
+                  disabled={isAnalyzing}
+                  variant="mobile"
+                />
+              </div>
+            </div>
+            
             {/* Page Header */}
             <div className="text-center mb-8">
-              <div className="flex items-center justify-center gap-4 mb-4">
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-4">
                 <h1 
-                  className="text-4xl font-bold text-gray-900"
+                  className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900"
                   data-tooltip="main-title"
                 >
                   What do LLMs look for on my webpage?
@@ -94,7 +107,7 @@ export default function Analyzer() {
                   showBadge={isFirstVisit}
                 />
               </div>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto">
                 Predict how Google's AI Mode breaks down your content into sub-queries. 
                 Identify coverage gaps and get optimisation recommendations for better search visibility.
               </p>
