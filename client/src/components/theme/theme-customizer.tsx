@@ -17,15 +17,23 @@ interface ThemeColors {
 }
 
 const defaultTheme: ThemeColors = {
-  primary: "#3b82f6",     // Blue
-  secondary: "#10b981",   // Green
-  accent: "#f59e0b",      // Amber
-  success: "#10b981",     // Green
-  warning: "#f59e0b",     // Amber
-  error: "#ef4444",       // Red
+  primary: "#07262c",     // Your dark teal
+  secondary: "#7b7b7b",   // Your grey
+  accent: "#ccff00",      // Your lime
+  success: "#ccff00",     // Your lime
+  warning: "#7b7b7b",     // Your grey
+  error: "#d32f2f",       // Your red
 };
 
 const presetThemes = {
+  "Your Brand": {
+    primary: "#07262c",
+    secondary: "#7b7b7b",
+    accent: "#ccff00",
+    success: "#ccff00",
+    warning: "#7b7b7b",
+    error: "#d32f2f"
+  },
   "Professional Blue": {
     primary: "#2563eb",
     secondary: "#1e40af", 
