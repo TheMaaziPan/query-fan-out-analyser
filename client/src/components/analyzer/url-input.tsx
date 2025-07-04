@@ -40,7 +40,7 @@ export default function UrlInput({ onAnalysisStart, onBatchStart, disabled }: Ur
     onSuccess: (data) => {
       toast({
         title: "Analysis Started",
-        description: "Your URL is being analyzed. This may take a few minutes.",
+        description: "Your URL is being analysed. This may take a few minutes.",
       });
       onAnalysisStart(data.id);
       queryClient.invalidateQueries({ queryKey: ["/api/analyses/recent"] });
@@ -78,7 +78,7 @@ export default function UrlInput({ onAnalysisStart, onBatchStart, disabled }: Ur
     <div className="space-y-4">
       <div>
         <Label htmlFor="url-input" className="block text-sm font-medium text-gray-700 mb-2">
-          Enter URL to Analyze
+          Enter URL to Analyse
         </Label>
         <div className="relative">
           <Input
@@ -117,7 +117,7 @@ export default function UrlInput({ onAnalysisStart, onBatchStart, disabled }: Ur
           disabled={disabled}
         />
         <div className="text-xs text-gray-500 mt-2">
-          Analyze up to 50 URLs at once
+          Analyse up to 50 URLs at once
         </div>
       </div>
     </div>

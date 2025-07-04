@@ -29,7 +29,7 @@ export default function BatchUpload({ onBatchStart, disabled }: BatchUploadProps
     },
     onSuccess: (data) => {
       toast({
-        title: "Batch Analysis Started",
+        title: "Batch Analysis Started", 
         description: `Processing ${data.totalUrls} URLs. This may take several minutes.`,
       });
       onBatchStart(data.id);

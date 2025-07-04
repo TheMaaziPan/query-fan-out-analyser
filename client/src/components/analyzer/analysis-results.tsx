@@ -51,7 +51,7 @@ export default function AnalysisResults({ analysisId, onAnalysisComplete }: Anal
       <Card>
         <CardContent className="p-12 text-center">
           <h2 className="text-2xl font-bold text-gray-900 mb-2">Query Fan-Out Analysis</h2>
-          <p className="text-gray-600">Enter a URL to start analyzing content coverage</p>
+          <p className="text-gray-600">Enter a URL to start analysing content coverage</p>
         </CardContent>
       </Card>
     );
@@ -99,7 +99,7 @@ export default function AnalysisResults({ analysisId, onAnalysisComplete }: Anal
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
             <div>
               <h2 className="text-2xl font-bold text-gray-900">Query Fan-Out Analysis</h2>
-              <p className="text-gray-600 mt-1">AI-powered content coverage analysis for SEO optimization</p>
+              <p className="text-gray-600 mt-1">AI-powered content coverage analysis for SEO optimisation</p>
             </div>
             <div className="mt-4 sm:mt-0 flex space-x-3">
               <Button 
@@ -136,7 +136,7 @@ export default function AnalysisResults({ analysisId, onAnalysisComplete }: Anal
               <div className="text-sm font-medium text-gray-900 break-all">
                 {analysis.url}
               </div>
-              <div className="text-xs text-gray-500 mt-1">Analyzed URL</div>
+              <div className="text-xs text-gray-500 mt-1">Analysed URL</div>
             </div>
             
             <div className="text-center p-4 bg-gray-50 rounded-lg">

@@ -17,7 +17,7 @@ export default function LoadingModal({ isOpen, analysisId }: LoadingModalProps) 
   const getStatusMessage = (status: string) => {
     switch (status) {
       case 'pending':
-        return 'Initializing analysis...';
+        return 'Initialising analysis...';
       case 'scraping':
         return 'Extracting content from webpage...';
       case 'chunking':
@@ -65,7 +65,7 @@ export default function LoadingModal({ isOpen, analysisId }: LoadingModalProps) 
     <Dialog open={isOpen}>
       <DialogContent className="sm:max-w-md">
         <DialogTitle className="text-lg font-semibold text-gray-900 text-center">
-          Analyzing Content...
+          Analysing Content...
         </DialogTitle>
         <DialogDescription className="text-sm text-gray-600 text-center">
           {analysis ? getStatusMessage(analysis.status) : 'Processing semantic chunks and generating queries with Gemini AI'}
@@ -79,7 +79,7 @@ export default function LoadingModal({ isOpen, analysisId }: LoadingModalProps) 
             ></div>
           </div>
           <p className="text-xs text-gray-500">
-            {analysis ? getStep(analysis.status) : 'Initializing...'}
+            {analysis ? getStep(analysis.status) : 'Initialising...'}
           </p>
         </div>
       </DialogContent>
