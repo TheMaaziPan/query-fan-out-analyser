@@ -7,14 +7,16 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import BatchUpload from "./batch-upload";
+import CompetitorComparison from "./competitor-comparison";
 
 interface UrlInputProps {
   onAnalysisStart: (analysisId: number) => void;
   onBatchStart: (batchId: string) => void;
+  onComparisonStart?: (comparisonId: string) => void;
   disabled?: boolean;
 }
 
-export default function UrlInput({ onAnalysisStart, onBatchStart, disabled }: UrlInputProps) {
+export default function UrlInput({ onAnalysisStart, onBatchStart, onComparisonStart, disabled }: UrlInputProps) {
   const [url, setUrl] = useState("");
   const [isValidUrl, setIsValidUrl] = useState(false);
   const { toast } = useToast();
@@ -112,12 +114,18 @@ export default function UrlInput({ onAnalysisStart, onBatchStart, disabled }: Ur
       {/* Batch Analysis Section */}
       <div className="pt-6 border-t border-gray-200">
         <h3 className="text-md font-medium text-gray-900 mb-3">Batch Analysis</h3>
-        <BatchUpload 
-          onBatchStart={onBatchStart}
-          disabled={disabled}
-        />
+        <div className="space-y-3">
+          <BatchUpload 
+            onBatchStart={onBatchStart}
+            disabled={disabled}
+          />
+          <CompetitorComparison 
+            onComparisonStart={onComparisonStart}
+            disabled={disabled}
+          />
+        </div>
         <div className="text-xs text-gray-500 mt-2">
-          Analyse up to 50 URLs at once
+          Analyse up to 50 URLs at once or compare up to 10 competitors
         </div>
       </div>
     </div>

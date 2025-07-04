@@ -34,6 +34,15 @@ export const batches = pgTable("batches", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
+export const comparisons = pgTable("comparisons", {
+  id: text("id").primaryKey(), // UUID
+  name: text("name").notNull(),
+  description: text("description"),
+  analysisIds: jsonb("analysis_ids").$type<number[]>().notNull(),
+  status: text("status").notNull().default("pending"), // pending, processing, completed, failed
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
 export const insertUserSchema = createInsertSchema(users).pick({
   username: true,
   password: true,
@@ -48,12 +57,18 @@ export const insertBatchSchema = createInsertSchema(batches).omit({
   createdAt: true,
 });
 
+export const insertComparisonSchema = createInsertSchema(comparisons).omit({
+  createdAt: true,
+});
+
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
 export type Analysis = typeof analyses.$inferSelect;
 export type InsertAnalysis = z.infer<typeof insertAnalysisSchema>;
 export type Batch = typeof batches.$inferSelect;
 export type InsertBatch = z.infer<typeof insertBatchSchema>;
+export type Comparison = typeof comparisons.$inferSelect;
+export type InsertComparison = z.infer<typeof insertComparisonSchema>;
 
 // Analysis data types
 export interface QueryResult {
@@ -77,17 +92,17 @@ export interface AnalysisRequest {
 export interface AnalysisResponse {
   id: number;
   url: string;
-  title?: string;
-  primaryEntity?: string;
-  semanticChunks?: number;
-  queryCoverage?: string;
-  coverageScore?: number;
-  queries?: QueryResult[];
-  recommendations?: string[];
-  semanticChunksData?: SemanticChunk[];
+  title?: string | null;
+  primaryEntity?: string | null;
+  semanticChunks?: number | null;
+  queryCoverage?: string | null;
+  coverageScore?: number | null;
+  queries?: QueryResult[] | null;
+  recommendations?: string[] | null;
+  semanticChunksData?: SemanticChunk[] | null;
   status: string;
-  batchId?: string;
-  createdAt?: Date;
+  batchId?: string | null;
+  createdAt?: Date | null;
 }
 
 export interface BatchAnalysisRequest {
@@ -104,4 +119,37 @@ export interface BatchResponse {
   status: string;
   createdAt?: Date;
   analyses?: AnalysisResponse[];
+}
+
+export interface ComparisonRequest {
+  name: string;
+  description?: string;
+  urls: string[];
+}
+
+export interface ComparisonResponse {
+  id: string;
+  name: string;
+  description?: string;
+  status: string;
+  createdAt?: Date;
+  analyses?: AnalysisResponse[];
+  comparisonData?: {
+    topQueries: Array<{
+      query: string;
+      coverage: Array<{
+        url: string;
+        hasContent: boolean;
+        coverageLevel: "Yes" | "Partial" | "No";
+      }>;
+    }>;
+    coverageGaps: Array<{
+      query: string;
+      missingFrom: string[];
+    }>;
+    strengths: Array<{
+      url: string;
+      uniqueQueries: string[];
+    }>;
+  };
 }

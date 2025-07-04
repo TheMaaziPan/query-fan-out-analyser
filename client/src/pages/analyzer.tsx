@@ -4,6 +4,8 @@ import UrlInput from "@/components/analyzer/url-input";
 import AnalysisResults from "@/components/analyzer/analysis-results";
 import BatchResults from "@/components/analyzer/batch-results";
 import LoadingModal from "@/components/analyzer/loading-modal";
+import CompetitorComparison from "@/components/analyzer/competitor-comparison";
+import CompetitorResults from "@/components/analyzer/competitor-results";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
@@ -12,8 +14,9 @@ import type { AnalysisResponse } from "@shared/schema";
 export default function Analyzer() {
   const [currentAnalysisId, setCurrentAnalysisId] = useState<number | null>(null);
   const [currentBatchId, setCurrentBatchId] = useState<string | null>(null);
+  const [currentComparisonId, setCurrentComparisonId] = useState<string | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
-  const [viewMode, setViewMode] = useState<"single" | "batch">("single");
+  const [viewMode, setViewMode] = useState<"single" | "batch" | "comparison">("single");
 
   // Fetch recent analyses
   const { data: recentAnalyses = [] } = useQuery<AnalysisResponse[]>({
@@ -30,7 +33,16 @@ export default function Analyzer() {
   const handleBatchStart = (batchId: string) => {
     setCurrentBatchId(batchId);
     setCurrentAnalysisId(null);
+    setCurrentComparisonId(null);
     setViewMode("batch");
+    setIsAnalyzing(false);
+  };
+
+  const handleComparisonStart = (comparisonId: string) => {
+    setCurrentComparisonId(comparisonId);
+    setCurrentAnalysisId(null);
+    setCurrentBatchId(null);
+    setViewMode("comparison");
     setIsAnalyzing(false);
   };
 
@@ -53,6 +65,7 @@ export default function Analyzer() {
                 <UrlInput 
                   onAnalysisStart={handleAnalysisStart}
                   onBatchStart={handleBatchStart}
+                  onComparisonStart={handleComparisonStart}
                   disabled={isAnalyzing}
                 />
 
@@ -103,16 +116,29 @@ export default function Analyzer() {
               >
                 Batch AI Analysis
               </Button>
+              <Button
+                variant={viewMode === "comparison" ? "default" : "outline"}
+                size="sm"
+                onClick={() => setViewMode("comparison")}
+              >
+                Competitor Comparison
+              </Button>
             </div>
 
             {/* Results Display */}
-            {viewMode === "single" ? (
+            {viewMode === "single" && (
               <AnalysisResults 
                 analysisId={currentAnalysisId}
                 onAnalysisComplete={handleAnalysisComplete}
               />
-            ) : (
+            )}
+
+            {viewMode === "batch" && (
               <BatchResults batchId={currentBatchId} />
+            )}
+
+            {viewMode === "comparison" && (
+              <CompetitorResults comparisonId={currentComparisonId} />
             )}
           </div>
         </div>

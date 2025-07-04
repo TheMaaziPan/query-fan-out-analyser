@@ -3,6 +3,7 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { scrapeWebPage } from "./services/scraper";
 import { analyzeQueryFanOut, extractSemanticChunks } from "./services/gemini";
+import { performComparisonAnalysis, generateComparisonSummary } from "./services/comparison";
 import { z } from "zod";
 import { randomUUID } from "crypto";
 
@@ -14,6 +15,38 @@ const batchAnalyzeSchema = z.object({
   urls: z.array(z.string().url("Invalid URL format")).min(1, "At least one URL is required").max(50, "Maximum 50 URLs allowed"),
   name: z.string().optional()
 });
+
+const comparisonSchema = z.object({
+  name: z.string().min(1, "Name is required"),
+  description: z.string().optional(),
+  urls: z.array(z.string().url("Invalid URL format")).min(2, "At least two URLs are required for comparison").max(10, "Maximum 10 URLs allowed for comparison")
+});
+
+async function processComparison(comparisonId: string, analysisIds: number[], urls: string[]): Promise<void> {
+  try {
+    await storage.updateComparison(comparisonId, { status: "processing" });
+    
+    // Process all analyses
+    for (let i = 0; i < analysisIds.length; i++) {
+      const analysisId = analysisIds[i];
+      const url = urls[i];
+      
+      try {
+        await performAnalysis(analysisId, url);
+      } catch (error) {
+        console.error(`Analysis ${analysisId} for comparison ${comparisonId} failed:`, error);
+        await storage.updateAnalysis(analysisId, { status: "failed" });
+      }
+    }
+    
+    // Update comparison status to completed
+    await storage.updateComparison(comparisonId, { status: "completed" });
+    
+  } catch (error) {
+    console.error(`Comparison ${comparisonId} processing failed:`, error);
+    await storage.updateComparison(comparisonId, { status: "failed" });
+  }
+}
 
 async function processBatch(batchId: string, analysisIds: number[]): Promise<void> {
   try {
@@ -220,6 +253,112 @@ export async function registerRoutes(app: Express): Promise<Server> {
       console.error("Get recent batches error:", error);
       res.status(500).json({ 
         error: "Failed to retrieve recent batches" 
+      });
+    }
+  });
+
+  // Create comparison analysis
+  app.post("/api/compare", async (req, res) => {
+    try {
+      const validatedData = comparisonSchema.parse(req.body);
+      const comparisonId = randomUUID();
+      
+      // Create analyses for each URL first
+      const analysisPromises = validatedData.urls.map(async (url) => {
+        const analysis = await storage.createAnalysis({
+          url,
+          status: "pending"
+        });
+        return analysis.id;
+      });
+      
+      const analysisIds = await Promise.all(analysisPromises);
+      
+      // Create comparison record
+      const comparison = await storage.createComparison({
+        id: comparisonId,
+        name: validatedData.name,
+        description: validatedData.description,
+        analysisIds,
+        status: "pending"
+      });
+      
+      // Start processing analyses in background
+      processComparison(comparisonId, analysisIds, validatedData.urls);
+      
+      res.json({
+        id: comparison.id,
+        name: comparison.name,
+        description: comparison.description,
+        status: comparison.status,
+        totalUrls: validatedData.urls.length
+      });
+      
+    } catch (error) {
+      console.error("Create comparison error:", error);
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ 
+          error: "Validation failed", 
+          details: error.errors 
+        });
+      }
+      res.status(500).json({ 
+        error: "Failed to create comparison" 
+      });
+    }
+  });
+
+  // Get comparison by ID
+  app.get("/api/comparison/:id", async (req, res) => {
+    try {
+      const comparisonId = req.params.id;
+      const comparison = await storage.getComparison(comparisonId);
+      
+      if (!comparison) {
+        return res.status(404).json({ error: "Comparison not found" });
+      }
+      
+      // Get all analyses for this comparison
+      const analyses = await Promise.all(
+        comparison.analysisIds.map(id => storage.getAnalysis(id))
+      );
+      
+      const validAnalyses = analyses.filter((analysis): analysis is NonNullable<typeof analysis> => Boolean(analysis));
+      
+      // If all analyses are completed, generate comparison data
+      let comparisonData = undefined;
+      if (validAnalyses.every(analysis => analysis?.status === "completed")) {
+        try {
+          comparisonData = performComparisonAnalysis(validAnalyses);
+        } catch (error) {
+          console.error("Comparison analysis error:", error);
+        }
+      }
+      
+      res.json({
+        ...comparison,
+        analyses: validAnalyses,
+        comparisonData
+      });
+      
+    } catch (error) {
+      console.error("Get comparison error:", error);
+      res.status(500).json({ 
+        error: "Failed to retrieve comparison" 
+      });
+    }
+  });
+
+  // Get recent comparisons
+  app.get("/api/comparisons/recent", async (req, res) => {
+    try {
+      const limit = parseInt(req.query.limit as string) || 10;
+      const comparisons = await storage.getRecentComparisons(limit);
+      res.json(comparisons);
+    } catch (error) {
+      console.error("Get recent comparisons error:", error);
+      res.status(500).json({ 
+        error: "Failed to retrieve recent comparisons" 
       });
     }
   });

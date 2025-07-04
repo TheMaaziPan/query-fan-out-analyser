@@ -1,6 +1,6 @@
-import { users, type User, type InsertUser, analyses, type Analysis, type InsertAnalysis, batches, type Batch, type InsertBatch } from "@shared/schema";
+import { users, type User, type InsertUser, analyses, type Analysis, type InsertAnalysis, batches, type Batch, type InsertBatch, comparisons, type Comparison, type InsertComparison } from "@shared/schema";
 import { db } from "./db";
-import { eq, desc } from "drizzle-orm";
+import { eq, desc, inArray } from "drizzle-orm";
 
 export interface IStorage {
   getUser(id: number): Promise<User | undefined>;
@@ -20,6 +20,12 @@ export interface IStorage {
   getBatch(id: string): Promise<Batch | undefined>;
   updateBatch(id: string, updates: Partial<InsertBatch>): Promise<Batch | undefined>;
   getRecentBatches(limit?: number): Promise<Batch[]>;
+  
+  // Comparison methods
+  createComparison(comparison: InsertComparison): Promise<Comparison>;
+  getComparison(id: string): Promise<Comparison | undefined>;
+  updateComparison(id: string, updates: Partial<InsertComparison>): Promise<Comparison | undefined>;
+  getRecentComparisons(limit?: number): Promise<Comparison[]>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -106,6 +112,37 @@ export class DatabaseStorage implements IStorage {
       .select()
       .from(batches)
       .orderBy(desc(batches.createdAt))
+      .limit(limit);
+  }
+
+  // Comparison methods
+  async createComparison(insertComparison: InsertComparison): Promise<Comparison> {
+    const [comparison] = await db
+      .insert(comparisons)
+      .values(insertComparison as any)
+      .returning();
+    return comparison;
+  }
+
+  async getComparison(id: string): Promise<Comparison | undefined> {
+    const [comparison] = await db.select().from(comparisons).where(eq(comparisons.id, id));
+    return comparison || undefined;
+  }
+
+  async updateComparison(id: string, updates: Partial<InsertComparison>): Promise<Comparison | undefined> {
+    const [comparison] = await db
+      .update(comparisons)
+      .set(updates as any)
+      .where(eq(comparisons.id, id))
+      .returning();
+    return comparison || undefined;
+  }
+
+  async getRecentComparisons(limit: number = 10): Promise<Comparison[]> {
+    return await db
+      .select()
+      .from(comparisons)
+      .orderBy(desc(comparisons.createdAt))
       .limit(limit);
   }
 }
