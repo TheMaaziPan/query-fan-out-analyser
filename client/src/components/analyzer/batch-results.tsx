@@ -19,12 +19,10 @@ export default function BatchResults({ batchId }: BatchResultsProps) {
 
   if (!batchId) {
     return (
-      <Card className="bg-white shadow-sm">
-        <CardContent className="p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Brand Mention Analysis Results</h3>
-          <div className="bg-gray-50 rounded-lg p-8 text-center">
-            <p className="text-gray-600">Use batch analysis to upload multiple domains at once</p>
-          </div>
+      <Card>
+        <CardContent className="p-12 text-center">
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">Batch Analysis</h2>
+          <p className="text-gray-600">Upload multiple URLs to analyse them all at once</p>
         </CardContent>
       </Card>
     );

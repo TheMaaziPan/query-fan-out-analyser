@@ -48,12 +48,10 @@ export default function AnalysisResults({ analysisId, onAnalysisComplete }: Anal
 
   if (!analysisId) {
     return (
-      <Card className="bg-white shadow-sm">
-        <CardContent className="p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Brand Mention Analysis Results</h3>
-          <div className="bg-gray-50 rounded-lg p-8 text-center">
-            <p className="text-gray-600">Add domains above to start brand mention analysis</p>
-          </div>
+      <Card>
+        <CardContent className="p-12 text-center">
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">Query Fan-Out Analysis</h2>
+          <p className="text-gray-600">Enter a URL to start analysing content coverage</p>
         </CardContent>
       </Card>
     );
@@ -95,83 +93,147 @@ export default function AnalysisResults({ analysisId, onAnalysisComplete }: Anal
 
   return (
     <div className="space-y-6">
-      {/* Brand Mention Analysis Results */}
-      <Card className="bg-white shadow-sm">
+      {/* Analysis Header */}
+      <Card>
         <CardContent className="p-6">
-          <div className="flex items-center justify-between mb-6">
-            <h3 className="text-lg font-semibold text-gray-900">Brand Mention Analysis Results</h3>
-            <div className="flex gap-2">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <h2 className="text-2xl font-bold text-gray-900">Query Fan-Out Analysis</h2>
+              <p className="text-gray-600 mt-1">AI-powered content coverage analysis for SEO optimisation</p>
+            </div>
+            <div className="mt-4 sm:mt-0 flex space-x-3">
               <Button 
                 variant="outline"
                 onClick={() => handleExport('csv')}
-                size="sm"
-                className="text-xs"
               >
-                <Download className="mr-1 h-3 w-3" />
+                <Download className="mr-2 h-4 w-4" />
                 Export CSV
               </Button>
               <Button 
-                variant="outline"  
+                variant="outline"
                 onClick={() => handleExport('json')}
-                size="sm"
-                className="text-xs"
               >
-                <Download className="mr-1 h-3 w-3" />
+                <Download className="mr-2 h-4 w-4" />
                 Export JSON
               </Button>
             </div>
           </div>
+        </CardContent>
+      </Card>
 
-          {/* Results Table */}
-          <div className="overflow-x-auto">
-            <table className="min-w-full">
-              <thead>
-                <tr className="border-b border-gray-200">
-                  <th className="text-left py-3 px-4 text-xs font-medium text-gray-500 uppercase tracking-wider">DOMAIN</th>
-                  <th className="text-left py-3 px-4 text-xs font-medium text-gray-500 uppercase tracking-wider">AVERAGE*</th>
-                  <th className="text-left py-3 px-4 text-xs font-medium text-gray-500 uppercase tracking-wider">CHATGPT</th>
-                  <th className="text-left py-3 px-4 text-xs font-medium text-gray-500 uppercase tracking-wider">GEMINI</th>
-                  <th className="text-left py-3 px-4 text-xs font-medium text-gray-500 uppercase tracking-wider">CLAUDE</th>
-                  <th className="text-left py-3 px-4 text-xs font-medium text-gray-500 uppercase tracking-wider">GROK</th>
-                  <th className="text-left py-3 px-4 text-xs font-medium text-gray-500 uppercase tracking-wider">PERPLEXITY</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-200">
-                <tr>
-                  <td className="py-3 px-4 text-sm">
-                    <div className="flex items-center gap-2">
-                      <span className="font-medium">{new URL(analysis.url).hostname}</span>
-                      <button className="px-2 py-1 text-xs bg-red-100 text-red-800 rounded">Remove</button>
-                    </div>
-                  </td>
-                  <td className="py-3 px-4 text-sm font-medium">{analysis.coverageScore ? `${(analysis.coverageScore * 100).toFixed(1)}%` : '0.81%'}</td>
-                  <td className="py-3 px-4 text-sm">{Math.random().toFixed(2)}%</td>
-                  <td className="py-3 px-4 text-sm">{Math.random().toFixed(2)}%</td>
-                  <td className="py-3 px-4 text-sm">{Math.random().toFixed(2)}%</td>
-                  <td className="py-3 px-4 text-sm">{Math.random().toFixed(2)}%</td>
-                  <td className="py-3 px-4 text-sm">{Math.random().toFixed(2)}%</td>
-                </tr>
-                {/* Additional sample row for demonstration */}
-                <tr>
-                  <td className="py-3 px-4 text-sm">
-                    <div className="flex items-center gap-2">
-                      <span className="font-medium">hubbleiq</span>
-                      <button className="px-2 py-1 text-xs bg-red-100 text-red-800 rounded">Remove</button>
-                    </div>
-                  </td>
-                  <td className="py-3 px-4 text-sm font-medium">2.12%</td>
-                  <td className="py-3 px-4 text-sm">3.30%</td>
-                  <td className="py-3 px-4 text-sm">1.29%</td>
-                  <td className="py-3 px-4 text-sm">2.11%</td>
-                  <td className="py-3 px-4 text-sm">1.73%</td>
-                  <td className="py-3 px-4 text-sm">2.19%</td>
-                </tr>
-              </tbody>
-            </table>
+      {/* Analysis Overview */}
+      <Card>
+        <CardContent className="p-6">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-lg font-semibold text-gray-900">Analysis Overview</h3>
+            <Badge variant="secondary" className="bg-green-100 text-green-800">
+              Analysis Complete
+            </Badge>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="text-center p-4 bg-gray-50 rounded-lg">
+              <div className="text-sm font-medium text-gray-900 break-all">
+                {analysis.url}
+              </div>
+              <div className="text-xs text-gray-500 mt-1">Analysed URL</div>
+            </div>
+            
+            <div className="text-center p-4 bg-gray-50 rounded-lg">
+              <div className="text-3xl font-bold text-gray-900">{analysis.semanticChunks || 0}</div>
+              <div className="text-xs text-gray-500 mt-1">Semantic Chunks</div>
+            </div>
+            
+            <div className="text-center p-4 bg-orange-50 rounded-lg">
+              <div className="text-3xl font-bold text-orange-600">{analysis.queryCoverage || '0/0'}</div>
+              <div className="text-xs text-gray-500 mt-1">Query Coverage</div>
+            </div>
           </div>
         </CardContent>
       </Card>
 
+      {/* Primary Entity */}
+      {analysis.primaryEntity && (
+        <Card>
+          <CardContent className="p-6">
+            <h3 className="text-lg font-semibold text-gray-900 mb-3">Primary Entity Identified</h3>
+            <div className="bg-blue-50 border-l-4 border-primary p-4 rounded">
+              <p className="text-gray-900 font-medium">{analysis.primaryEntity}</p>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Query Coverage */}
+      {analysis.queries && (
+        <QueryCoverage queries={analysis.queries} />
+      )}
+
+      {/* Recommendations */}
+      {analysis.recommendations && analysis.recommendations.length > 0 && (
+        <Card>
+          <CardContent className="p-6">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">Optimization Recommendations</h3>
+            <div className="space-y-4">
+              {analysis.recommendations.map((recommendation, index) => (
+                <div key={index} className="flex items-start space-x-3">
+                  <div className="w-2 h-2 bg-orange-500 rounded-full mt-2"></div>
+                  <div>
+                    <p className="text-gray-900">{recommendation}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Semantic Chunks */}
+      {analysis.semanticChunksData && analysis.semanticChunksData.length > 0 && (
+        <Card>
+          <CardContent className="p-6">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">Semantic Chunks Detected</h3>
+            <div className="overflow-x-auto">
+              <table className="min-w-full divide-y divide-gray-200">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Content Preview</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Length</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Query Potential</th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {analysis.semanticChunksData.map((chunk, index) => (
+                    <tr key={index}>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 capitalize">
+                        {chunk.type.replace('_', ' ')}
+                      </td>
+                      <td className="px-6 py-4 text-sm text-gray-900">
+                        {chunk.content.length > 100 ? `${chunk.content.substring(0, 100)}...` : chunk.content}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {chunk.length} chars
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <Badge 
+                          variant={chunk.queryPotential === 'High' ? 'default' : 
+                                 chunk.queryPotential === 'Medium' ? 'secondary' : 'outline'}
+                          className={chunk.queryPotential === 'High' ? 'bg-green-100 text-green-800' :
+                                   chunk.queryPotential === 'Medium' ? 'bg-orange-100 text-orange-800' :
+                                   'bg-gray-100 text-gray-800'}
+                        >
+                          {chunk.queryPotential}
+                        </Badge>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 }
