@@ -8,6 +8,7 @@ import CompetitorComparison from "@/components/analyzer/competitor-comparison";
 import CompetitorResults from "@/components/analyzer/competitor-results";
 import TooltipGuide, { useTooltipGuide } from "@/components/ui/tooltip-guide";
 import HelpButton from "@/components/ui/help-button";
+import ThemeCustomizer from "@/components/theme/theme-customizer";
 import { analyzerTooltipSteps } from "@/data/tooltip-steps";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -184,6 +185,9 @@ export default function Analyzer() {
         onClose={closeGuide}
         onComplete={completeGuide}
       />
+      
+      {/* Theme Customizer */}
+      <ThemeCustomizer />
     </div>
   );
 }

@@ -1,3 +1,6 @@
+/* Import brand theme */
+@import './styles/brand-theme.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
