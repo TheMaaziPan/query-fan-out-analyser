@@ -135,21 +135,30 @@ export interface ComparisonResponse {
   createdAt?: Date;
   analyses?: AnalysisResponse[];
   comparisonData?: {
+    baselineUrl: string;
+    baselineTitle: string | null;
     topQueries: Array<{
       query: string;
       coverage: Array<{
         url: string;
         hasContent: boolean;
         coverageLevel: "Yes" | "Partial" | "No";
+        isBaseline: boolean;
       }>;
     }>;
     coverageGaps: Array<{
       query: string;
       missingFrom: string[];
+      baselineHas: boolean;
     }>;
-    strengths: Array<{
+    competitorAdvantages: Array<{
       url: string;
       uniqueQueries: string[];
+      betterCoverage: string[];
+    }>;
+    baselineAdvantages: Array<{
+      query: string;
+      description: string;
     }>;
   };
 }

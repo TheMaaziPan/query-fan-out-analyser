@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { CheckCircle, XCircle, AlertCircle, TrendingUp, Users } from "lucide-react";
+import { CheckCircle, XCircle, AlertCircle, TrendingUp, Users, AlertTriangle } from "lucide-react";
 import type { ComparisonResponse } from "@shared/schema";
 
 interface CompetitorResultsProps {
@@ -165,7 +165,10 @@ export default function CompetitorResults({ comparisonId }: CompetitorResultsPro
           {comparison.comparisonData.topQueries.length > 0 && (
             <Card>
               <CardHeader>
-                <CardTitle>Common Query Patterns</CardTitle>
+                <CardTitle>Query Coverage Comparison</CardTitle>
+                <p className="text-sm text-gray-600">
+                  How your site compares to competitors for key search queries
+                </p>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
@@ -176,8 +179,10 @@ export default function CompetitorResults({ comparisonId }: CompetitorResultsPro
                         {queryData.coverage.map((coverage, idx) => {
                           const domain = new URL(coverage.url).hostname;
                           return (
-                            <div key={idx} className="flex items-center justify-between">
-                              <span className="text-sm text-gray-600">{domain}</span>
+                            <div key={idx} className={`flex items-center justify-between p-2 rounded ${coverage.isBaseline ? 'bg-blue-50 border border-blue-200' : ''}`}>
+                              <span className={`text-sm ${coverage.isBaseline ? 'font-medium text-blue-900' : 'text-gray-600'}`}>
+                                {coverage.isBaseline ? '📍 ' : ''}{domain}{coverage.isBaseline ? ' (Your Site)' : ''}
+                              </span>
                               <Badge 
                                 variant={coverage.coverageLevel === 'Yes' ? 'default' : 
                                         coverage.coverageLevel === 'Partial' ? 'secondary' : 'destructive'}
@@ -219,29 +224,76 @@ export default function CompetitorResults({ comparisonId }: CompetitorResultsPro
             </Card>
           )}
 
-          {/* Unique Strengths */}
-          {comparison.comparisonData.strengths.length > 0 && (
+          {/* Baseline Advantages */}
+          {comparison.comparisonData.baselineAdvantages.length > 0 && (
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <TrendingUp className="h-5 w-5 text-green-500" />
-                  Unique Content Strengths
+                  <TrendingUp className="h-5 w-5 text-blue-500" />
+                  Your Unique Advantages
                 </CardTitle>
+                <p className="text-sm text-gray-600">
+                  Content areas where your site outperforms competitors
+                </p>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {comparison.comparisonData.strengths.map((strength, index) => {
-                    const domain = new URL(strength.url).hostname;
+                  {comparison.comparisonData.baselineAdvantages.map((advantage, index) => (
+                    <div key={index} className="border rounded-lg p-4 bg-blue-50">
+                      <h4 className="font-medium text-gray-900 mb-1">{advantage.query}</h4>
+                      <p className="text-sm text-gray-600">{advantage.description}</p>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Competitor Advantages */}
+          {comparison.comparisonData.competitorAdvantages.length > 0 && (
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <AlertTriangle className="h-5 w-5 text-orange-500" />
+                  Competitor Advantages
+                </CardTitle>
+                <p className="text-sm text-gray-600">
+                  Areas where competitors outperform your site
+                </p>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  {comparison.comparisonData.competitorAdvantages.map((advantage, index) => {
+                    const domain = new URL(advantage.url).hostname;
                     return (
-                      <div key={index} className="border rounded-lg p-4 bg-green-50">
+                      <div key={index} className="border rounded-lg p-4 bg-orange-50">
                         <h4 className="font-medium text-gray-900 mb-2">{domain}</h4>
-                        <div className="flex flex-wrap gap-2">
-                          {strength.uniqueQueries.map((query, idx) => (
-                            <Badge key={idx} variant="secondary" className="text-xs">
-                              {query}
-                            </Badge>
-                          ))}
-                        </div>
+                        
+                        {advantage.uniqueQueries.length > 0 && (
+                          <div className="mb-3">
+                            <p className="text-sm font-medium text-gray-700 mb-2">Unique Content:</p>
+                            <div className="flex flex-wrap gap-2">
+                              {advantage.uniqueQueries.map((query, idx) => (
+                                <Badge key={idx} variant="outline" className="text-xs border-orange-300">
+                                  {query}
+                                </Badge>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                        
+                        {advantage.betterCoverage.length > 0 && (
+                          <div>
+                            <p className="text-sm font-medium text-gray-700 mb-2">Better Coverage:</p>
+                            <div className="flex flex-wrap gap-2">
+                              {advantage.betterCoverage.map((query, idx) => (
+                                <Badge key={idx} variant="destructive" className="text-xs">
+                                  {query}
+                                </Badge>
+                              ))}
+                            </div>
+                          </div>
+                        )}
                       </div>
                     );
                   })}
