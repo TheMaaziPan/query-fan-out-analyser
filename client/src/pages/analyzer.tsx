@@ -48,7 +48,7 @@ export default function Analyzer() {
           <div className="lg:col-span-1">
             <Card>
               <CardContent className="p-6">
-                <h2 className="text-lg font-semibold text-gray-900 mb-4">Analysis Queue</h2>
+                <h2 className="text-lg font-semibold text-gray-900 mb-4">AI Analysis Queue</h2>
                 
                 <UrlInput 
                   onAnalysisStart={handleAnalysisStart}
@@ -94,14 +94,14 @@ export default function Analyzer() {
                 size="sm"
                 onClick={() => setViewMode("single")}
               >
-                Single Analysis
+                Single AI Analysis
               </Button>
               <Button
                 variant={viewMode === "batch" ? "default" : "outline"}
                 size="sm"
                 onClick={() => setViewMode("batch")}
               >
-                Batch Analysis
+                Batch AI Analysis
               </Button>
             </div>
 

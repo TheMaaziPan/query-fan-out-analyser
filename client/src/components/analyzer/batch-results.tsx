@@ -21,7 +21,7 @@ export default function BatchResults({ batchId }: BatchResultsProps) {
     return (
       <Card>
         <CardContent className="p-12 text-center">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Batch Analysis</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">Batch AI Analysis</h2>
           <p className="text-gray-600">Upload multiple URLs to analyse them all at once</p>
         </CardContent>
       </Card>

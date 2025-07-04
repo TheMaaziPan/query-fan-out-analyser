@@ -50,7 +50,7 @@ export default function AnalysisResults({ analysisId, onAnalysisComplete }: Anal
     return (
       <Card>
         <CardContent className="p-12 text-center">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Query Fan-Out Analysis</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">AI Analysis</h2>
           <p className="text-gray-600">Enter a URL to start analysing content coverage</p>
         </CardContent>
       </Card>
@@ -98,8 +98,8 @@ export default function AnalysisResults({ analysisId, onAnalysisComplete }: Anal
         <CardContent className="p-6">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <h2 className="text-2xl font-bold text-gray-900">Query Fan-Out Analysis</h2>
-              <p className="text-gray-600 mt-1">AI-powered content coverage analysis for SEO optimisation</p>
+              <h2 className="text-2xl font-bold text-gray-900">AI Analysis</h2>
+              <p className="text-gray-600 mt-1">Predict how AI Mode breaks down your content into sub-queries</p>
             </div>
             <div className="mt-4 sm:mt-0 flex space-x-3">
               <Button 
