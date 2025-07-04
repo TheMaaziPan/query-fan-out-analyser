@@ -12,18 +12,7 @@ export default function Header() {
             </div>
             <h1 className="text-xl font-bold text-gray-900">What do LLMs look for on my webpage?</h1>
           </div>
-          <nav className="hidden md:flex items-center space-x-6">
-            <a href="#" className="text-gray-700 hover:text-primary transition-colors">Dashboard</a>
-            <a href="#" className="text-gray-700 hover:text-primary transition-colors">History</a>
-            <a href="#" className="text-gray-700 hover:text-primary transition-colors">API Docs</a>
-            <Button className="bg-primary text-white hover:bg-blue-700">
-              Account
-            </Button>
-          </nav>
-          <Button variant="ghost" className="md:hidden">
-            <span className="sr-only">Menu</span>
-            ☰
-          </Button>
+
         </div>
       </div>
     </header>
