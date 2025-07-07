@@ -37,62 +37,91 @@ export default function SmartTooltip({
     const targetElement = document.querySelector(target);
     if (!targetElement) return;
 
-    const targetRect = targetElement.getBoundingClientRect();
-    const tooltipRect = tooltipRef.current.getBoundingClientRect();
-    const viewportWidth = window.innerWidth;
-    const viewportHeight = window.innerHeight;
-    const scrollY = window.scrollY;
-    const scrollX = window.scrollX;
+    const calculatePosition = () => {
+      const targetRect = targetElement.getBoundingClientRect();
+      const viewportWidth = window.innerWidth;
+      const viewportHeight = window.innerHeight;
+      const scrollY = window.scrollY;
+      const scrollX = window.scrollX;
+      const padding = 16; // Safe padding from edges
+      const tooltipWidth = Math.min(320, viewportWidth - (padding * 2)); // Responsive width
+      const tooltipHeight = 200; // Estimated tooltip height
 
-    // Calculate available space in each direction
-    const spaceAbove = targetRect.top;
-    const spaceBelow = viewportHeight - targetRect.bottom;
-    const spaceLeft = targetRect.left;
-    const spaceRight = viewportWidth - targetRect.right;
+      // Calculate available space in each direction
+      const spaceAbove = targetRect.top;
+      const spaceBelow = viewportHeight - targetRect.bottom;
+      const spaceLeft = targetRect.left;
+      const spaceRight = viewportWidth - targetRect.right;
 
-    let top = 0;
-    let left = 0;
-    let arrow: 'top' | 'bottom' | 'left' | 'right' = 'bottom';
+      let top = 0;
+      let left = 0;
+      let arrow: 'top' | 'bottom' | 'left' | 'right' = 'bottom';
 
-    // Determine best position based on available space
-    if (spaceBelow >= 200 || spaceBelow > spaceAbove) {
-      // Position below target
-      top = targetRect.bottom + scrollY + 12;
-      left = targetRect.left + scrollX + (targetRect.width / 2) - (320 / 2); // 320 is tooltip width
-      arrow = 'top';
-    } else if (spaceAbove >= 200) {
-      // Position above target
-      top = targetRect.top + scrollY - tooltipRect.height - 12;
-      left = targetRect.left + scrollX + (targetRect.width / 2) - (320 / 2);
-      arrow = 'bottom';
-    } else if (spaceRight >= 320) {
-      // Position to the right
-      top = targetRect.top + scrollY + (targetRect.height / 2) - (tooltipRect.height / 2);
-      left = targetRect.right + scrollX + 12;
-      arrow = 'left';
-    } else {
-      // Position to the left
-      top = targetRect.top + scrollY + (targetRect.height / 2) - (tooltipRect.height / 2);
-      left = targetRect.left + scrollX - 320 - 12;
-      arrow = 'right';
-    }
+      // Priority order: below > above > right > left
+      if (spaceBelow >= tooltipHeight + padding) {
+        // Position below target
+        top = targetRect.bottom + scrollY + 12;
+        left = targetRect.left + scrollX + (targetRect.width / 2) - (tooltipWidth / 2);
+        arrow = 'top';
+      } else if (spaceAbove >= tooltipHeight + padding) {
+        // Position above target
+        top = targetRect.top + scrollY - tooltipHeight - 12;
+        left = targetRect.left + scrollX + (targetRect.width / 2) - (tooltipWidth / 2);
+        arrow = 'bottom';
+      } else if (spaceRight >= tooltipWidth + padding) {
+        // Position to the right
+        top = targetRect.top + scrollY + (targetRect.height / 2) - (tooltipHeight / 2);
+        left = targetRect.right + scrollX + 12;
+        arrow = 'left';
+      } else if (spaceLeft >= tooltipWidth + padding) {
+        // Position to the left
+        top = targetRect.top + scrollY + (targetRect.height / 2) - (tooltipHeight / 2);
+        left = targetRect.left + scrollX - tooltipWidth - 12;
+        arrow = 'right';
+      } else {
+        // Fallback: position below with smart horizontal adjustment
+        top = targetRect.bottom + scrollY + 12;
+        left = targetRect.left + scrollX + (targetRect.width / 2) - (tooltipWidth / 2);
+        arrow = 'top';
+      }
 
-    // Ensure tooltip stays within viewport bounds
-    if (left < 12) left = 12;
-    if (left + 320 > viewportWidth - 12) left = viewportWidth - 320 - 12;
-    if (top < scrollY + 12) top = scrollY + 12;
-    if (top + tooltipRect.height > scrollY + viewportHeight - 12) {
-      top = scrollY + viewportHeight - tooltipRect.height - 12;
-    }
+      // Ensure tooltip stays within viewport bounds with extra safety margins
+      const minLeft = scrollX + padding;
+      const maxLeft = scrollX + viewportWidth - tooltipWidth - padding;
+      const minTop = scrollY + padding;
+      const maxTop = scrollY + viewportHeight - tooltipHeight - padding;
 
-    setPosition({ top, left });
-    setArrowPosition(arrow);
+      left = Math.max(minLeft, Math.min(maxLeft, left));
+      top = Math.max(minTop, Math.min(maxTop, top));
+
+      return { top, left, arrow };
+    };
+
+    // Use setTimeout to allow tooltip to render first, then position it
+    const timeout = setTimeout(() => {
+      const positionData = calculatePosition();
+      setPosition({ top: positionData.top, left: positionData.left });
+      setArrowPosition(positionData.arrow);
+    }, 10);
 
     // Highlight target element
     targetElement.classList.add('tooltip-highlight');
     
+    // Recalculate on scroll or resize
+    const handleReposition = () => {
+      const newPosition = calculatePosition();
+      setPosition({ top: newPosition.top, left: newPosition.left });
+      setArrowPosition(newPosition.arrow);
+    };
+
+    window.addEventListener('scroll', handleReposition);
+    window.addEventListener('resize', handleReposition);
+    
     return () => {
+      clearTimeout(timeout);
       targetElement.classList.remove('tooltip-highlight');
+      window.removeEventListener('scroll', handleReposition);
+      window.removeEventListener('resize', handleReposition);
     };
   }, [isVisible, target]);
 
@@ -106,8 +135,13 @@ export default function SmartTooltip({
       {/* Tooltip */}
       <div
         ref={tooltipRef}
-        className="fixed z-50 w-80 bg-white rounded-lg shadow-xl border border-gray-200 p-6"
-        style={{ top: position.top, left: position.left }}
+        className="fixed z-50 w-80 max-w-[calc(100vw-32px)] bg-white rounded-lg shadow-xl border border-gray-200 p-6"
+        style={{ 
+          top: `${position.top}px`, 
+          left: `${position.left}px`,
+          maxHeight: 'calc(100vh - 32px)',
+          overflow: 'auto'
+        }}
       >
         {/* Arrow */}
         <div
