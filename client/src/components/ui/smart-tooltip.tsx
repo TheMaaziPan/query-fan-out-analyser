@@ -30,6 +30,7 @@ export default function SmartTooltip({
   const tooltipRef = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState({ top: 0, left: 0 });
   const [arrowPosition, setArrowPosition] = useState<'top' | 'bottom' | 'left' | 'right'>('bottom');
+  const [viewportWidth, setViewportWidth] = useState(0);
 
   useEffect(() => {
     if (!isVisible || !tooltipRef.current) return;
@@ -37,62 +38,77 @@ export default function SmartTooltip({
     const targetElement = document.querySelector(target);
     if (!targetElement) return;
 
+    // Update viewport width for style calculations
+    setViewportWidth(window.innerWidth);
+
     const calculatePosition = () => {
       const targetRect = targetElement.getBoundingClientRect();
       const viewportWidth = window.innerWidth;
       const viewportHeight = window.innerHeight;
       const scrollY = window.scrollY;
       const scrollX = window.scrollX;
-      const padding = 16; // Safe padding from edges
-      const tooltipWidth = Math.min(320, viewportWidth - (padding * 2)); // Responsive width
-      const tooltipHeight = 200; // Estimated tooltip height
+      const padding = 20; // Increased padding for better safety
+      const tooltipWidth = Math.min(320, viewportWidth - (padding * 2));
+      const tooltipHeight = 250; // More conservative height estimate
 
-      // Calculate available space in each direction
-      const spaceAbove = targetRect.top;
-      const spaceBelow = viewportHeight - targetRect.bottom;
-      const spaceLeft = targetRect.left;
-      const spaceRight = viewportWidth - targetRect.right;
+      // Calculate absolute viewport boundaries
+      const viewportTop = scrollY;
+      const viewportBottom = scrollY + viewportHeight;
+      const viewportLeft = scrollX;
+      const viewportRight = scrollX + viewportWidth;
+
+      // Calculate safe boundaries for tooltip placement
+      const safeTop = viewportTop + padding;
+      const safeBottom = viewportBottom - tooltipHeight - padding;
+      const safeLeft = viewportLeft + padding;
+      const safeRight = viewportRight - tooltipWidth - padding;
 
       let top = 0;
       let left = 0;
       let arrow: 'top' | 'bottom' | 'left' | 'right' = 'bottom';
 
-      // Priority order: below > above > right > left
-      if (spaceBelow >= tooltipHeight + padding) {
+      // Try to center tooltip horizontally relative to target
+      const preferredLeft = targetRect.left + scrollX + (targetRect.width / 2) - (tooltipWidth / 2);
+      left = Math.max(safeLeft, Math.min(safeRight, preferredLeft));
+
+      // Determine vertical position based on available space
+      const targetTop = targetRect.top + scrollY;
+      const targetBottom = targetRect.bottom + scrollY;
+      
+      const spaceBelow = safeBottom - targetBottom;
+      const spaceAbove = targetTop - safeTop;
+
+      if (spaceBelow >= 12 && spaceBelow >= spaceAbove) {
         // Position below target
-        top = targetRect.bottom + scrollY + 12;
-        left = targetRect.left + scrollX + (targetRect.width / 2) - (tooltipWidth / 2);
+        top = Math.min(targetBottom + 12, safeBottom);
         arrow = 'top';
-      } else if (spaceAbove >= tooltipHeight + padding) {
+      } else if (spaceAbove >= 12) {
         // Position above target
-        top = targetRect.top + scrollY - tooltipHeight - 12;
-        left = targetRect.left + scrollX + (targetRect.width / 2) - (tooltipWidth / 2);
+        top = Math.max(targetTop - tooltipHeight - 12, safeTop);
         arrow = 'bottom';
-      } else if (spaceRight >= tooltipWidth + padding) {
-        // Position to the right
-        top = targetRect.top + scrollY + (targetRect.height / 2) - (tooltipHeight / 2);
-        left = targetRect.right + scrollX + 12;
-        arrow = 'left';
-      } else if (spaceLeft >= tooltipWidth + padding) {
-        // Position to the left
-        top = targetRect.top + scrollY + (targetRect.height / 2) - (tooltipHeight / 2);
-        left = targetRect.left + scrollX - tooltipWidth - 12;
-        arrow = 'right';
       } else {
-        // Fallback: position below with smart horizontal adjustment
-        top = targetRect.bottom + scrollY + 12;
-        left = targetRect.left + scrollX + (targetRect.width / 2) - (tooltipWidth / 2);
-        arrow = 'top';
+        // Not enough vertical space, try horizontal positioning
+        const targetMiddleY = targetTop + (targetRect.height / 2);
+        top = Math.max(safeTop, Math.min(safeBottom, targetMiddleY - (tooltipHeight / 2)));
+        
+        const spaceRight = safeRight - (targetRect.right + scrollX);
+        const spaceLeft = (targetRect.left + scrollX) - safeLeft;
+        
+        if (spaceRight >= 12 && spaceRight >= spaceLeft) {
+          // Position to the right
+          left = Math.min(targetRect.right + scrollX + 12, safeRight);
+          arrow = 'left';
+        } else if (spaceLeft >= 12) {
+          // Position to the left
+          left = Math.max(targetRect.left + scrollX - tooltipWidth - 12, safeLeft);
+          arrow = 'right';
+        } else {
+          // Last resort: center in viewport
+          top = Math.max(safeTop, Math.min(safeBottom, viewportTop + (viewportHeight / 2) - (tooltipHeight / 2)));
+          left = Math.max(safeLeft, Math.min(safeRight, viewportLeft + (viewportWidth / 2) - (tooltipWidth / 2)));
+          arrow = 'bottom';
+        }
       }
-
-      // Ensure tooltip stays within viewport bounds with extra safety margins
-      const minLeft = scrollX + padding;
-      const maxLeft = scrollX + viewportWidth - tooltipWidth - padding;
-      const minTop = scrollY + padding;
-      const maxTop = scrollY + viewportHeight - tooltipHeight - padding;
-
-      left = Math.max(minLeft, Math.min(maxLeft, left));
-      top = Math.max(minTop, Math.min(maxTop, top));
 
       return { top, left, arrow };
     };
@@ -109,6 +125,7 @@ export default function SmartTooltip({
     
     // Recalculate on scroll or resize
     const handleReposition = () => {
+      setViewportWidth(window.innerWidth);
       const newPosition = calculatePosition();
       setPosition({ top: newPosition.top, left: newPosition.left });
       setArrowPosition(newPosition.arrow);
@@ -135,11 +152,11 @@ export default function SmartTooltip({
       {/* Tooltip */}
       <div
         ref={tooltipRef}
-        className="fixed z-50 w-80 max-w-[calc(100vw-32px)] bg-white rounded-lg shadow-xl border border-gray-200 p-6"
+        className="fixed z-50 w-80 max-w-[calc(100vw-40px)] bg-white rounded-lg shadow-xl border border-gray-200 p-6"
         style={{ 
-          top: `${position.top}px`, 
-          left: `${position.left}px`,
-          maxHeight: 'calc(100vh - 32px)',
+          top: `${Math.max(20, position.top)}px`, 
+          left: `${Math.max(20, Math.min(viewportWidth - 340, position.left))}px`,
+          maxHeight: 'calc(100vh - 40px)',
           overflow: 'auto'
         }}
       >
