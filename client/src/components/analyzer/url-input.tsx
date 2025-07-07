@@ -7,18 +7,17 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import BatchUpload from "./batch-upload";
-import CompetitorComparison from "./competitor-comparison";
+
 import TooltipHover from "@/components/ui/tooltip-hover";
 
 interface UrlInputProps {
   onAnalysisStart: (analysisId: number) => void;
   onBatchStart: (batchId: string) => void;
-  onComparisonStart?: (comparisonId: string) => void;
   disabled?: boolean;
   variant?: 'sidebar' | 'mobile';
 }
 
-export default function UrlInput({ onAnalysisStart, onBatchStart, onComparisonStart, disabled, variant = 'sidebar' }: UrlInputProps) {
+export default function UrlInput({ onAnalysisStart, onBatchStart, disabled, variant = 'sidebar' }: UrlInputProps) {
   const [url, setUrl] = useState("");
   const [isValidUrl, setIsValidUrl] = useState(false);
   const { toast } = useToast();
@@ -127,7 +126,7 @@ export default function UrlInput({ onAnalysisStart, onBatchStart, onComparisonSt
 
       {/* Batch Analysis Section */}
       <div className={`pt-6 border-t ${borderColor}`}>
-        <TooltipHover content="Process multiple URLs at once for bulk analysis and competitor comparison">
+        <TooltipHover content="Process multiple URLs at once for comprehensive bulk analysis">
           <h3 className={`text-md font-medium ${sectionLabelColor} mb-3`}>Batch Analysis</h3>
         </TooltipHover>
         <div className="space-y-3">
@@ -141,19 +140,10 @@ export default function UrlInput({ onAnalysisStart, onBatchStart, onComparisonSt
               </div>
             </TooltipHover>
           </div>
-          <div data-tooltip="competitor-comparison">
-            <TooltipHover content="Compare up to 10 competitor websites to identify content gaps and competitive advantages" position="right">
-              <div>
-                <CompetitorComparison 
-                  onComparisonStart={onComparisonStart}
-                  disabled={disabled}
-                />
-              </div>
-            </TooltipHover>
-          </div>
+
         </div>
         <div className="text-xs text-gray-500 mt-2">
-          Analyse up to 50 URLs at once or compare up to 10 competitors
+          Analyse up to 50 URLs at once for comprehensive content audits
         </div>
       </div>
     </div>

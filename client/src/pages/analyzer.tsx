@@ -4,8 +4,7 @@ import UrlInput from "@/components/analyzer/url-input";
 import AnalysisResults from "@/components/analyzer/analysis-results";
 import BatchResults from "@/components/analyzer/batch-results";
 import LoadingModal from "@/components/analyzer/loading-modal";
-import CompetitorComparison from "@/components/analyzer/competitor-comparison";
-import CompetitorResults from "@/components/analyzer/competitor-results";
+
 import TooltipGuide, { useTooltipGuide } from "@/components/ui/tooltip-guide";
 import HelpButton from "@/components/ui/help-button";
 import TooltipHover from "@/components/ui/tooltip-hover";
@@ -19,9 +18,9 @@ import type { AnalysisResponse } from "@shared/schema";
 export default function Analyzer() {
   const [currentAnalysisId, setCurrentAnalysisId] = useState<number | null>(null);
   const [currentBatchId, setCurrentBatchId] = useState<string | null>(null);
-  const [currentComparisonId, setCurrentComparisonId] = useState<string | null>(null);
+
   const [isAnalyzing, setIsAnalyzing] = useState(false);
-  const [viewMode, setViewMode] = useState<"single" | "batch" | "comparison">("single");
+  const [viewMode, setViewMode] = useState<"single" | "batch">("single");
 
   // Tooltip guide state
   const { isFirstVisit, showGuide, startGuide, closeGuide, completeGuide } = useTooltipGuide();
@@ -41,16 +40,7 @@ export default function Analyzer() {
   const handleBatchStart = (batchId: string) => {
     setCurrentBatchId(batchId);
     setCurrentAnalysisId(null);
-    setCurrentComparisonId(null);
     setViewMode("batch");
-    setIsAnalyzing(false);
-  };
-
-  const handleComparisonStart = (comparisonId: string) => {
-    setCurrentComparisonId(comparisonId);
-    setCurrentAnalysisId(null);
-    setCurrentBatchId(null);
-    setViewMode("comparison");
     setIsAnalyzing(false);
   };
 
@@ -72,7 +62,6 @@ export default function Analyzer() {
             <UrlInput 
               onAnalysisStart={handleAnalysisStart}
               onBatchStart={handleBatchStart}
-              onComparisonStart={handleComparisonStart}
               disabled={isAnalyzing}
             />
           </div>
@@ -87,7 +76,6 @@ export default function Analyzer() {
                 <UrlInput 
                   onAnalysisStart={handleAnalysisStart}
                   onBatchStart={handleBatchStart}
-                  onComparisonStart={handleComparisonStart}
                   disabled={isAnalyzing}
                   variant="mobile"
                 />
@@ -133,15 +121,6 @@ export default function Analyzer() {
                   Batch AI Analysis
                 </Button>
               </TooltipHover>
-              <TooltipHover content="View side-by-side comparison of competitor websites">
-                <Button
-                  variant={viewMode === "comparison" ? "default" : "outline"}
-                  size="sm"
-                  onClick={() => setViewMode("comparison")}
-                >
-                  Competitor Comparison
-                </Button>
-              </TooltipHover>
             </div>
 
             {/* Results Display */}
@@ -155,10 +134,6 @@ export default function Analyzer() {
 
               {viewMode === "batch" && (
                 <BatchResults batchId={currentBatchId} />
-              )}
-
-              {viewMode === "comparison" && (
-                <CompetitorResults comparisonId={currentComparisonId} />
               )}
             </div>
           </div>
