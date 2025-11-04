@@ -13,22 +13,22 @@ export interface QueryFanOutResult {
   coverageScore: number;
 }
 
-export async function analyzeQueryFanOut(
+export async function analyseQueryFanOut(
   title: string,
   content: string,
   semanticChunks: SemanticChunk[]
 ): Promise<QueryFanOutResult> {
   try {
-    const systemPrompt = `You are a Query Fan-Out Analysis expert that analyzes web content to predict how Google's AI Mode breaks down content into sub-queries.
+    const systemPrompt = `You are a Query Fan-Out Analysis expert that analyses web content to predict how Google's AI Mode breaks down content into sub-queries.
 
 Your task is to:
 1. Identify the primary entity/topic
 2. Generate 8-10 sub-queries that Google's AI would likely create from this content
 3. Score each query's coverage in the content (Yes/Partial/No)
-4. Provide optimization recommendations
+4. Provide optimisation recommendations
 5. Calculate an overall coverage score (0-10)
 
-Analyze the content like Google's AI Mode would - looking for comprehensive answers across related sub-topics.
+Analyse the content like Google's AI Mode would - looking for comprehensive answers across related sub-topics.
 
 Respond with JSON in this exact format:
 {
@@ -54,7 +54,7 @@ CONTENT PREVIEW: ${content.substring(0, 2000)}
 SEMANTIC CHUNKS DETECTED: ${semanticChunks.length}
 ${semanticChunks.map(chunk => `- ${chunk.type}: ${chunk.content.substring(0, 100)}...`).join('\n')}
 
-Analyze this content for query fan-out patterns and provide the structured response.`;
+Analyse this content for query fan-out patterns and provide the structured response.`;
 
     const response = await ai.models.generateContent({
       model: "gemini-2.5-pro",
@@ -106,7 +106,7 @@ Analyze this content for query fan-out patterns and provide the structured respo
 
   } catch (error) {
     console.error("Gemini analysis error:", error);
-    throw new Error(`Failed to analyze content with Gemini AI: ${error}`);
+    throw new Error(`Failed to analyse content with Gemini AI: ${error}`);
   }
 }
 

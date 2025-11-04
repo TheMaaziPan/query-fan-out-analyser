@@ -2,7 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { scrapeWebPage } from "./services/scraper";
-import { analyzeQueryFanOut, extractSemanticChunks } from "./services/gemini";
+import { analyseQueryFanOut, extractSemanticChunks } from "./services/gemini";
 import { performComparisonAnalysis, generateComparisonSummary } from "./services/comparison";
 import { z } from "zod";
 import { randomUUID } from "crypto";
@@ -417,9 +417,9 @@ async function performAnalysis(analysisId: number, url: string): Promise<void> {
     await storage.updateAnalysis(analysisId, { status: "chunking" });
     const semanticChunks = extractSemanticChunks(scrapedContent.content, scrapedContent.title);
     
-    // Step 3: Analyze with Gemini AI
-    await storage.updateAnalysis(analysisId, { status: "analyzing" });
-    const analysisResult = await analyzeQueryFanOut(
+    // Step 3: Analyse with Gemini AI
+    await storage.updateAnalysis(analysisId, { status: "analysing" });
+    const analysisResult = await analyseQueryFanOut(
       scrapedContent.title,
       scrapedContent.content,
       semanticChunks

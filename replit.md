@@ -1,8 +1,8 @@
-# Query Fan-Out Analyzer
+# Query Fan-Out Analyser
 
 ## Overview
 
-The Query Fan-Out Analyzer is a full-stack web application that analyzes web pages to predict how Google's AI Mode would break down content into sub-queries. Built with React on the frontend and Express.js on the backend, it uses Google's Gemini AI to perform semantic analysis of web content and provides actionable insights for content optimization.
+The Query Fan-Out Analyser is a full-stack web application that analyses web pages to predict how Google's AI Mode would break down content into sub-queries. Built with React on the frontend and Express.js on the backend, it uses Google's Gemini AI to perform semantic analysis of web content and provides actionable insights for content optimization.
 
 ## System Architecture
 

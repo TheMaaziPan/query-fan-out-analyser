@@ -78,7 +78,7 @@ export const resultsTooltipSteps: TooltipStep[] = [
   {
     id: "analysis-header",
     title: "Analysis Complete!",
-    description: "Your webpage has been successfully analyzed. This tool predicts how Google's AI Mode would break down your content into sub-queries.",
+    description: "Your webpage has been successfully analysed. This tool predicts how Google's AI Mode would break down your content into sub-queries.",
     target: "[data-tooltip='analysis-header']",
     position: "bottom",
     highlight: true
@@ -94,7 +94,7 @@ export const resultsTooltipSteps: TooltipStep[] = [
   {
     id: "analysis-overview",
     title: "Quick Overview",
-    description: "See key metrics at a glance: your analyzed URL, how many content sections were found, and overall query coverage.",
+    description: "See key metrics at a glance: your analysed URL, how many content sections were found, and overall query coverage.",
     target: "[data-tooltip='analysis-overview']",
     position: "bottom",
     highlight: true

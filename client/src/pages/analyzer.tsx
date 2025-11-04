@@ -19,7 +19,7 @@ export default function Analyzer() {
   const [currentAnalysisId, setCurrentAnalysisId] = useState<number | null>(null);
   const [currentBatchId, setCurrentBatchId] = useState<string | null>(null);
 
-  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [isAnalysing, setIsAnalysing] = useState(false);
   const [viewMode, setViewMode] = useState<"single" | "batch">("single");
 
   // Tooltip guide state
@@ -34,18 +34,18 @@ export default function Analyzer() {
     setCurrentAnalysisId(analysisId);
     setCurrentBatchId(null);
     setViewMode("single");
-    setIsAnalyzing(true);
+    setIsAnalysing(true);
   };
 
   const handleBatchStart = (batchId: string) => {
     setCurrentBatchId(batchId);
     setCurrentAnalysisId(null);
     setViewMode("batch");
-    setIsAnalyzing(false);
+    setIsAnalysing(false);
   };
 
   const handleAnalysisComplete = () => {
-    setIsAnalyzing(false);
+    setIsAnalysing(false);
   };
 
   return (
@@ -61,7 +61,7 @@ export default function Analyzer() {
             <UrlInput 
               onAnalysisStart={handleAnalysisStart}
               onBatchStart={handleBatchStart}
-              disabled={isAnalyzing}
+              disabled={isAnalysing}
             />
           </div>
         </div>
@@ -75,7 +75,7 @@ export default function Analyzer() {
                 <UrlInput 
                   onAnalysisStart={handleAnalysisStart}
                   onBatchStart={handleBatchStart}
-                  disabled={isAnalyzing}
+                  disabled={isAnalysing}
                   variant="mobile"
                 />
               </div>
@@ -141,7 +141,7 @@ export default function Analyzer() {
       </div>
       
       <LoadingModal 
-        isOpen={isAnalyzing}
+        isOpen={isAnalysing}
         analysisId={currentAnalysisId}
       />
       

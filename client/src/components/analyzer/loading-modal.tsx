@@ -22,7 +22,7 @@ export default function LoadingModal({ isOpen, analysisId }: LoadingModalProps) 
         return 'Extracting content from webpage...';
       case 'chunking':
         return 'Identifying semantic chunks...';
-      case 'analyzing':
+      case 'analysing':
         return 'Processing with AI...';
       default:
         return 'Processing...';
@@ -37,7 +37,7 @@ export default function LoadingModal({ isOpen, analysisId }: LoadingModalProps) 
         return 40;
       case 'chunking':
         return 60;
-      case 'analyzing':
+      case 'analysing':
         return 80;
       case 'completed':
         return 100;
@@ -54,7 +54,7 @@ export default function LoadingModal({ isOpen, analysisId }: LoadingModalProps) 
         return 'Step 2 of 4';
       case 'chunking':
         return 'Step 3 of 4';
-      case 'analyzing':
+      case 'analysing':
         return 'Step 4 of 4';
       default:
         return 'Processing';

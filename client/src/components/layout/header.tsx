@@ -8,7 +8,7 @@ export default function Header() {
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center space-x-2">
             <span className="text-xl sm:text-2xl font-bold text-primary">
-              Query Fan-Out Analyzer
+              Query Fan-Out Analyser
             </span>
           </div>
           
