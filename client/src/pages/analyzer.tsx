@@ -55,8 +55,7 @@ export default function Analyzer() {
         
         {/* Fixed Sidebar - Hidden on mobile, visible on desktop */}
         <div 
-          className="w-80 fixed left-0 top-16 bottom-0 overflow-y-auto z-40 hidden lg:block"
-          style={{ backgroundColor: '#07262c' }}
+          className="w-80 fixed left-0 top-16 bottom-0 overflow-y-auto z-40 hidden lg:block bg-gradient-to-b from-gray-50 to-white border-r border-gray-200"
         >
           <div className="p-6">
             <UrlInput 
@@ -83,31 +82,32 @@ export default function Analyzer() {
             </div>
             
             {/* Page Header */}
-            <div className="text-center mb-8">
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-4">
-                <h1 
-                  className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900"
-                  data-tooltip="main-title"
-                >
-                  What do LLMs look for on my webpage?
-                </h1>
+            <div className="mb-12">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+                <div>
+                  <h1 
+                    className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-3"
+                    data-tooltip="main-title"
+                  >
+                    Understand How AI Interprets Your Content
+                  </h1>
+                  <p className="text-lg text-gray-600 max-w-3xl">
+                    Predict how Google's AI Mode breaks down your webpage into search queries. Identify coverage gaps and get optimisation recommendations.
+                  </p>
+                </div>
                 <HelpButton 
                   onClick={startGuide}
                   showBadge={isFirstVisit}
                 />
               </div>
-              <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto">
-                Predict how Google's AI Mode breaks down your content into sub-queries. 
-                Identify coverage gaps and get optimisation recommendations for better search visibility.
-              </p>
             </div>
             {/* View Mode Toggle */}
-            <div className="flex gap-2 mb-6" data-tooltip="view-toggle">
+            <div className="flex gap-3 mb-8" data-tooltip="view-toggle">
               <TooltipHover content="View results from individual webpage analysis">
                 <Button
                   variant={viewMode === "single" ? "default" : "outline"}
-                  size="sm"
                   onClick={() => setViewMode("single")}
+                  className="rounded-full px-6"
                 >
                   Single AI Analysis
                 </Button>
@@ -115,8 +115,8 @@ export default function Analyzer() {
               <TooltipHover content="View results from bulk analysis of multiple webpages">
                 <Button
                   variant={viewMode === "batch" ? "default" : "outline"}
-                  size="sm"
                   onClick={() => setViewMode("batch")}
+                  className="rounded-full px-6"
                 >
                   Batch AI Analysis
                 </Button>

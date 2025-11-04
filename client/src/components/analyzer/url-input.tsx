@@ -77,9 +77,9 @@ export default function UrlInput({ onAnalysisStart, onBatchStart, disabled, vari
     }
   };
 
-  const labelColor = variant === 'sidebar' ? 'text-white' : 'text-gray-700';
-  const sectionLabelColor = variant === 'sidebar' ? 'text-white' : 'text-gray-900';
-  const borderColor = variant === 'sidebar' ? 'border-gray-600' : 'border-gray-200';
+  const labelColor = variant === 'sidebar' ? 'text-gray-700' : 'text-gray-700';
+  const sectionLabelColor = variant === 'sidebar' ? 'text-gray-900' : 'text-gray-900';
+  const borderColor = variant === 'sidebar' ? 'border-gray-200' : 'border-gray-200';
 
   return (
     <div className="space-y-4">
@@ -107,7 +107,7 @@ export default function UrlInput({ onAnalysisStart, onBatchStart, disabled, vari
             className="absolute right-2 top-2 text-gray-400 hover:text-primary"
             onClick={() => url && validateUrl(url)}
           >
-            <CheckCircle className={`h-5 w-5 ${isValidUrl ? 'text-green-500' : 'text-gray-400'}`} />
+            <CheckCircle className={`h-5 w-5 ${isValidUrl ? 'text-primary' : 'text-gray-400'}`} />
           </button>
         </div>
       </div>
@@ -116,7 +116,7 @@ export default function UrlInput({ onAnalysisStart, onBatchStart, disabled, vari
         <Button 
           onClick={handleSubmit}
           disabled={!url || !isValidUrl || disabled || startAnalysisMutation.isPending}
-          className="w-full bg-primary text-white hover:bg-blue-700"
+          className="w-full"
           data-tooltip="start-button"
         >
           <Play className="mr-2 h-4 w-4" />

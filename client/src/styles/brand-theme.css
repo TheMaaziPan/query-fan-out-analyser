@@ -1,10 +1,10 @@
 /* Brand Theme Variables */
 :root {
-  /* Brand Colors - Your website's colors */
-  --brand-primary: #07262c;        /* Dark teal primary */
-  --brand-primary-hover: #051e23;  /* Darker shade for hover */
-  --brand-secondary: #7b7b7b;      /* Medium grey secondary */
-  --brand-accent: #ccff00;         /* Bright lime accent */
+  /* Brand Colors - Natural professional palette */
+  --brand-primary: #1a4d2e;        /* Deep forest green */
+  --brand-primary-hover: #143d24;  /* Darker forest for hover */
+  --brand-secondary: #4a7c59;      /* Sage green secondary */
+  --brand-accent: #6b9b7a;         /* Natural green accent */
   
   /* Neutral Colors - Based on your palette */
   --brand-neutral-50: white;           /* Pure white */
@@ -15,8 +15,8 @@
   --brand-neutral-500: #616161;        /* Darker grey */
   --brand-neutral-600: #424242;        /* Dark grey */
   --brand-neutral-700: #303030;        /* Very dark grey */
-  --brand-neutral-800: #1a1818;        /* Your dark color */
-  --brand-neutral-900: #07262c;        /* Your primary dark */
+  --brand-neutral-800: #1a1818;        /* Dark grey */
+  --brand-neutral-900: #1a4d2e;        /* Primary forest green */
   
   /* Typography */
   --brand-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -27,29 +27,29 @@
   --brand-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
   --brand-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   
-  /* Status Colors - Based on your palette */
-  --brand-success: #ccff00;        /* Your bright lime for success */
-  --brand-warning: #7b7b7b;        /* Grey for warnings */
-  --brand-error: #d32f2f;          /* Your red for errors */
-  --brand-info: #07262c;           /* Your primary for info */
+  /* Status Colors - Natural palette */
+  --brand-success: #4a7c59;        /* Sage green for success */
+  --brand-warning: #f59e0b;        /* Amber for warnings */
+  --brand-error: #dc2626;          /* Red for errors */
+  --brand-info: #1a4d2e;           /* Forest green for info */
 }
 
 /* Apply brand colors to existing CSS variables */
 :root {
   --primary: var(--brand-primary);
-  --primary-foreground: var(--brand-accent);
-  --secondary: var(--brand-neutral-200);
-  --secondary-foreground: var(--brand-neutral-800);
+  --primary-foreground: white;
+  --secondary: var(--brand-secondary);
+  --secondary-foreground: white;
   --accent: var(--brand-accent);
-  --accent-foreground: var(--brand-neutral-900);
+  --accent-foreground: white;
   --background: var(--brand-neutral-50);
-  --foreground: var(--brand-neutral-900);
+  --foreground: var(--brand-neutral-800);
   --muted: var(--brand-neutral-100);
-  --muted-foreground: var(--brand-neutral-400);
+  --muted-foreground: var(--brand-neutral-500);
   --border: var(--brand-neutral-200);
   --input: var(--brand-neutral-200);
   --card: var(--brand-neutral-50);
-  --card-foreground: var(--brand-neutral-900);
+  --card-foreground: var(--brand-neutral-800);
   --radius: var(--brand-radius);
 }
 
