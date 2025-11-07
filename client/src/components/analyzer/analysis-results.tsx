@@ -2,12 +2,10 @@ import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Download, Share2, HelpCircle } from "lucide-react";
+import { Download, Share2 } from "lucide-react";
 import QueryCoverage from "./query-coverage";
-import TooltipManager from "@/components/ui/tooltip-manager";
-import { resultsTooltipSteps } from "@/data/tooltip-steps";
 import type { AnalysisResponse } from "@shared/schema";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 interface AnalysisResultsProps {
   analysisId: number | null;
@@ -15,7 +13,6 @@ interface AnalysisResultsProps {
 }
 
 export default function AnalysisResults({ analysisId, onAnalysisComplete }: AnalysisResultsProps) {
-  const [showTooltips, setShowTooltips] = useState(false);
   
   const { data: analysis, isLoading } = useQuery<AnalysisResponse>({
     queryKey: ["/api/analysis/" + analysisId],
@@ -98,25 +95,14 @@ export default function AnalysisResults({ analysisId, onAnalysisComplete }: Anal
   return (
     <div className="space-y-6">
       {/* Analysis Header */}
-      <Card data-tooltip="analysis-header">
+      <Card>
         <CardContent className="p-6">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-            <div className="flex items-center space-x-3">
-              <div>
-                <h2 className="text-2xl font-bold text-gray-900">AI Analysis</h2>
-                <p className="text-gray-600 mt-1">Predict how AI Mode breaks down your content into sub-queries</p>
-              </div>
-              <Button 
-                variant="ghost"
-                size="sm"
-                onClick={() => setShowTooltips(true)}
-                className="text-gray-500 hover:text-gray-700"
-                title="Show guide"
-              >
-                <HelpCircle className="h-5 w-5" />
-              </Button>
+            <div>
+              <h2 className="text-2xl font-bold text-gray-900">AI Analysis</h2>
+              <p className="text-gray-600 mt-1">Predict how AI Mode breaks down your content into sub-queries</p>
             </div>
-            <div className="mt-4 sm:mt-0 flex space-x-3" data-tooltip="export-buttons">
+            <div className="mt-4 sm:mt-0 flex space-x-3">
               <Button 
                 variant="outline"
                 onClick={() => handleExport('csv')}
@@ -137,7 +123,7 @@ export default function AnalysisResults({ analysisId, onAnalysisComplete }: Anal
       </Card>
 
       {/* Analysis Overview */}
-      <Card data-tooltip="analysis-overview">
+      <Card>
         <CardContent className="p-6">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-semibold text-gray-900">Analysis Overview</h3>
@@ -147,19 +133,19 @@ export default function AnalysisResults({ analysisId, onAnalysisComplete }: Anal
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="text-center p-4 bg-gray-50 rounded-lg" data-tooltip="analyzed-url">
+            <div className="text-center p-4 bg-gray-50 rounded-lg">
               <div className="text-sm font-medium text-gray-900 break-all">
                 {analysis.url}
               </div>
               <div className="text-xs text-gray-500 mt-1">Analysed URL</div>
             </div>
             
-            <div className="text-center p-4 bg-gray-50 rounded-lg" data-tooltip="semantic-chunks-count">
+            <div className="text-center p-4 bg-gray-50 rounded-lg">
               <div className="text-3xl font-bold text-gray-900">{analysis.semanticChunks || 0}</div>
               <div className="text-xs text-gray-500 mt-1">Semantic Chunks</div>
             </div>
             
-            <div className="text-center p-4 bg-orange-50 rounded-lg" data-tooltip="coverage-score">
+            <div className="text-center p-4 bg-orange-50 rounded-lg">
               <div className="text-3xl font-bold text-orange-600">{analysis.queryCoverage || '0/0'}</div>
               <div className="text-xs text-gray-500 mt-1">Query Coverage</div>
             </div>
@@ -169,7 +155,7 @@ export default function AnalysisResults({ analysisId, onAnalysisComplete }: Anal
 
       {/* Primary Entity */}
       {analysis.primaryEntity && (
-        <Card data-tooltip="primary-entity">
+        <Card>
           <CardContent className="p-6">
             <h3 className="text-lg font-semibold text-gray-900 mb-3">Primary Entity Identified</h3>
             <div className="bg-blue-50 border-l-4 border-primary p-4 rounded">
@@ -181,14 +167,12 @@ export default function AnalysisResults({ analysisId, onAnalysisComplete }: Anal
 
       {/* Query Coverage */}
       {analysis.queries && (
-        <div data-tooltip="query-list">
-          <QueryCoverage queries={analysis.queries} />
-        </div>
+        <QueryCoverage queries={analysis.queries} />
       )}
 
       {/* Recommendations */}
       {analysis.recommendations && analysis.recommendations.length > 0 && (
-        <Card data-tooltip="recommendations">
+        <Card>
           <CardContent className="p-6">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">Optimization Recommendations</h3>
             <div className="space-y-4">
@@ -207,7 +191,7 @@ export default function AnalysisResults({ analysisId, onAnalysisComplete }: Anal
 
       {/* Semantic Chunks */}
       {analysis.semanticChunksData && analysis.semanticChunksData.length > 0 && (
-        <Card data-tooltip="semantic-chunks">
+        <Card>
           <CardContent className="p-6">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">Semantic Chunks Detected</h3>
             <div className="overflow-x-auto">
@@ -251,13 +235,6 @@ export default function AnalysisResults({ analysisId, onAnalysisComplete }: Anal
           </CardContent>
         </Card>
       )}
-
-      {/* Tooltip Manager */}
-      <TooltipManager
-        steps={resultsTooltipSteps}
-        isActive={showTooltips}
-        onComplete={() => setShowTooltips(false)}
-      />
     </div>
   );
 }

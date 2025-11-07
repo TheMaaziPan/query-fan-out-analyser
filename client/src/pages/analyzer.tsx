@@ -4,12 +4,6 @@ import UrlInput from "@/components/analyzer/url-input";
 import AnalysisResults from "@/components/analyzer/analysis-results";
 import BatchResults from "@/components/analyzer/batch-results";
 import LoadingModal from "@/components/analyzer/loading-modal";
-
-import TooltipGuide, { useTooltipGuide } from "@/components/ui/tooltip-guide";
-import HelpButton from "@/components/ui/help-button";
-import TooltipHover from "@/components/ui/tooltip-hover";
-
-import { analyzerTooltipSteps } from "@/data/tooltip-steps";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
@@ -21,9 +15,6 @@ export default function Analyzer() {
 
   const [isAnalysing, setIsAnalysing] = useState(false);
   const [viewMode, setViewMode] = useState<"single" | "batch">("single");
-
-  // Tooltip guide state
-  const { isFirstVisit, showGuide, startGuide, closeGuide, completeGuide } = useTooltipGuide();
 
   // Fetch recent analyses
   const { data: recentAnalyses = [] } = useQuery<AnalysisResponse[]>({
@@ -83,48 +74,37 @@ export default function Analyzer() {
             
             {/* Page Header */}
             <div className="mb-12">
-              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
-                <div>
-                  <h1 
-                    className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-3"
-                    data-tooltip="main-title"
-                  >
-                    Understand How AI Interprets Your Content
-                  </h1>
-                  <p className="text-lg text-gray-600 max-w-3xl">
-                    Predict how Google's AI Mode breaks down your webpage into search queries. Identify coverage gaps and get optimisation recommendations.
-                  </p>
-                </div>
-                <HelpButton 
-                  onClick={startGuide}
-                  showBadge={isFirstVisit}
-                />
+              <div>
+                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-3">
+                  Understand How AI Interprets Your Content
+                </h1>
+                <p className="text-lg text-gray-600 max-w-3xl">
+                  Predict how Google's AI Mode breaks down your webpage into search queries. Identify coverage gaps and get optimisation recommendations.
+                </p>
               </div>
             </div>
             {/* View Mode Toggle */}
-            <div className="flex gap-3 mb-8" data-tooltip="view-toggle">
-              <TooltipHover content="View results from individual webpage analysis">
-                <Button
-                  variant={viewMode === "single" ? "default" : "outline"}
-                  onClick={() => setViewMode("single")}
-                  className="rounded-full px-6"
-                >
-                  Single AI Analysis
-                </Button>
-              </TooltipHover>
-              <TooltipHover content="View results from bulk analysis of multiple webpages">
-                <Button
-                  variant={viewMode === "batch" ? "default" : "outline"}
-                  onClick={() => setViewMode("batch")}
-                  className="rounded-full px-6"
-                >
-                  Batch AI Analysis
-                </Button>
-              </TooltipHover>
+            <div className="flex gap-3 mb-8">
+              <Button
+                variant={viewMode === "single" ? "default" : "outline"}
+                onClick={() => setViewMode("single")}
+                className="rounded-full px-6"
+                data-testid="button-single-analysis"
+              >
+                Single AI Analysis
+              </Button>
+              <Button
+                variant={viewMode === "batch" ? "default" : "outline"}
+                onClick={() => setViewMode("batch")}
+                className="rounded-full px-6"
+                data-testid="button-batch-analysis"
+              >
+                Batch AI Analysis
+              </Button>
             </div>
 
             {/* Results Display */}
-            <div data-tooltip="results-area">
+            <div>
               {viewMode === "single" && (
                 <AnalysisResults 
                   analysisId={currentAnalysisId}
@@ -143,14 +123,6 @@ export default function Analyzer() {
       <LoadingModal 
         isOpen={isAnalysing}
         analysisId={currentAnalysisId}
-      />
-      
-      {/* Tooltip Guide */}
-      <TooltipGuide
-        steps={analyzerTooltipSteps}
-        isOpen={showGuide}
-        onClose={closeGuide}
-        onComplete={completeGuide}
       />
     </>
   );

@@ -124,9 +124,10 @@ Changelog:
 - July 03, 2025. Implemented batch URL analysis feature with parallel processing, progress tracking, and CSV export capabilities
 - July 04, 2025. Added competitor comparison analysis feature with multi-URL comparison, content gap identification, and competitive intelligence insights
 - July 04, 2025. Implemented mobile-responsive design with adaptive sidebar/mobile layouts and MediaVision branding
-- July 04, 2025. Added hover tooltips throughout the interface to help users understand tool functionality and features
+- July 04, 2025. (Removed) Previously had tooltips but removed at user request
 - November 04, 2025. Complete design overhaul to match Lilypad SEO's clean, professional aesthetic with natural green color palette (forest green #1a4d2e, sage green #4a7c59), improved typography with bolder headlines, increased white space, professional button styling with subtle shadows, and simplified header
 - November 07, 2025. Complete color scheme migration from green to purple/yellow/black palette - primary purple (#9B59D0 / hsl(274 55% 45%)), golden yellow (#F4C430 / hsl(45 90% 57%)), with WCAG AA contrast compliance (4.9:1), all CSS variables converted to raw HSL format for proper hsl() wrapping, all success/completion indicators changed from green to purple across all components (query-coverage, analysis-results, batch-results, competitor-results)
+- November 07, 2025. Removed all tooltip/guide components from the interface (TooltipGuide, HelpButton, TooltipHover, TooltipManager) for cleaner, more streamlined user experience
 ```
 
 ## User Preferences
