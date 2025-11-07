@@ -42,7 +42,7 @@ export default function BatchResults({ batchId }: BatchResultsProps) {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'completed':
-        return 'bg-green-100 text-green-800';
+        return 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200';
       case 'processing':
         return 'bg-blue-100 text-blue-800';
       case 'failed':
@@ -109,8 +109,8 @@ export default function BatchResults({ batchId }: BatchResultsProps) {
             </div>
             
             <div className="grid grid-cols-3 gap-4 text-center">
-              <div className="bg-green-50 p-3 rounded-lg">
-                <div className="text-2xl font-bold text-green-600">{batch.completedUrls}</div>
+              <div className="bg-purple-50 p-3 rounded-lg">
+                <div className="text-2xl font-bold text-purple-600">{batch.completedUrls}</div>
                 <div className="text-sm text-gray-600">Completed</div>
               </div>
               <div className="bg-red-50 p-3 rounded-lg">
@@ -192,7 +192,7 @@ export default function BatchResults({ batchId }: BatchResultsProps) {
                     
                     <Badge 
                       className={
-                        analysis.status === 'completed' ? 'bg-green-100 text-green-800' :
+                        analysis.status === 'completed' ? 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200' :
                         analysis.status === 'failed' ? 'bg-red-100 text-red-800' :
                         'bg-gray-100 text-gray-800'
                       }

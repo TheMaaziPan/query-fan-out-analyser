@@ -141,7 +141,7 @@ export default function AnalysisResults({ analysisId, onAnalysisComplete }: Anal
         <CardContent className="p-6">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-semibold text-gray-900">Analysis Overview</h3>
-            <Badge variant="secondary" className="bg-green-100 text-green-800">
+            <Badge variant="secondary" className="bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200">
               Analysis Complete
             </Badge>
           </div>
@@ -236,7 +236,7 @@ export default function AnalysisResults({ analysisId, onAnalysisComplete }: Anal
                         <Badge 
                           variant={chunk.queryPotential === 'High' ? 'default' : 
                                  chunk.queryPotential === 'Medium' ? 'secondary' : 'outline'}
-                          className={chunk.queryPotential === 'High' ? 'bg-green-100 text-green-800' :
+                          className={chunk.queryPotential === 'High' ? 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200' :
                                    chunk.queryPotential === 'Medium' ? 'bg-orange-100 text-orange-800' :
                                    'bg-gray-100 text-gray-800'}
                         >

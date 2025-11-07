@@ -42,7 +42,7 @@ export default function CompetitorResults({ comparisonId }: CompetitorResultsPro
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'completed':
-        return 'bg-green-100 text-green-800';
+        return 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200';
       case 'processing':
         return 'bg-blue-100 text-blue-800';
       case 'failed':
@@ -96,9 +96,9 @@ export default function CompetitorResults({ comparisonId }: CompetitorResultsPro
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="text-center p-3 bg-green-50 rounded-lg">
-                <div className="text-2xl font-bold text-green-700">{completedAnalyses}</div>
-                <div className="text-sm text-green-600">Completed</div>
+              <div className="text-center p-3 bg-purple-50 rounded-lg">
+                <div className="text-2xl font-bold text-purple-700">{completedAnalyses}</div>
+                <div className="text-sm text-purple-600">Completed</div>
               </div>
               <div className="text-center p-3 bg-blue-50 rounded-lg">
                 <div className="text-2xl font-bold text-blue-700">
@@ -131,7 +131,7 @@ export default function CompetitorResults({ comparisonId }: CompetitorResultsPro
                   <div key={analysis.id} className="flex items-center justify-between p-3 border rounded-lg">
                     <div className="flex items-center gap-3">
                       {analysis.status === 'completed' ? (
-                        <CheckCircle className="h-5 w-5 text-green-500" />
+                        <CheckCircle className="h-5 w-5 text-purple-500" />
                       ) : analysis.status === 'failed' ? (
                         <XCircle className="h-5 w-5 text-red-500" />
                       ) : (

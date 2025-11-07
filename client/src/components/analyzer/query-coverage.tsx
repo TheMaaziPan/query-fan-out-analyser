@@ -10,7 +10,7 @@ export default function QueryCoverage({ queries }: QueryCoverageProps) {
   const getCoverageColor = (coverage: string) => {
     switch (coverage) {
       case 'Yes':
-        return 'bg-green-100 text-green-800';
+        return 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200';
       case 'Partial':
         return 'bg-orange-100 text-orange-800';
       case 'No':
@@ -36,7 +36,7 @@ export default function QueryCoverage({ queries }: QueryCoverageProps) {
   const getCoverageIconColor = (coverage: string) => {
     switch (coverage) {
       case 'Yes':
-        return 'text-green-500';
+        return 'text-purple-500';
       case 'Partial':
         return 'text-orange-500';
       case 'No':
@@ -53,7 +53,7 @@ export default function QueryCoverage({ queries }: QueryCoverageProps) {
           <h3 className="text-lg font-semibold text-gray-900">Query Coverage Analysis</h3>
           <div className="flex items-center space-x-4 text-sm">
             <div className="flex items-center space-x-1">
-              <span className="w-3 h-3 bg-green-500 rounded-full"></span>
+              <span className="w-3 h-3 bg-purple-500 rounded-full"></span>
               <span className="text-gray-600">Covered</span>
             </div>
             <div className="flex items-center space-x-1">
