@@ -17,21 +17,21 @@ interface ThemeColors {
 }
 
 const defaultTheme: ThemeColors = {
-  primary: "#1a4d2e",     // Deep forest green
-  secondary: "#4a7c59",   // Sage green
-  accent: "#6b9b7a",      // Natural green
-  success: "#4a7c59",     // Sage green
-  warning: "#f59e0b",     // Amber warning
+  primary: "#9B59D0",     // Vibrant purple
+  secondary: "#F4C430",   // Golden yellow
+  accent: "#C59FE6",      // Light purple
+  success: "#9B59D0",     // Purple
+  warning: "#F4C430",     // Golden yellow
   error: "#dc2626",       // Red error
 };
 
 const presetThemes = {
-  "Natural Green": {
-    primary: "#1a4d2e",
-    secondary: "#4a7c59",
-    accent: "#6b9b7a",
-    success: "#4a7c59",
-    warning: "#f59e0b",
+  "Vibrant Purple & Yellow": {
+    primary: "#9B59D0",
+    secondary: "#F4C430",
+    accent: "#C59FE6",
+    success: "#9B59D0",
+    warning: "#F4C430",
     error: "#dc2626"
   },
   "Professional Blue": {
