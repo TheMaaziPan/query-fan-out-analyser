@@ -16,20 +16,20 @@
   --card-foreground: hsl(0, 0%, 15%);
   --border: hsl(0, 0%, 88%);
   --input: hsl(0, 0%, 88%);
-  --primary: #1a4d2e;
+  --primary: #9B59D0;
   --primary-foreground: #ffffff;
-  --secondary: #4a7c59;
-  --secondary-foreground: #ffffff;
-  --accent: #6b9b7a;
-  --accent-foreground: #ffffff;
+  --secondary: #F4C430;
+  --secondary-foreground: #000000;
+  --accent: #C59FE6;
+  --accent-foreground: #000000;
   --destructive: hsl(0, 70%, 50%);
   --destructive-foreground: #ffffff;
-  --ring: hsl(120, 35%, 35%);
+  --ring: #9B59D0;
   --radius: 0.5rem;
   
-  /* Custom colors for the query analyzer */
+  /* Custom colors for the query analyser */
   --surface: hsl(0, 0%, 100%);
-  --success: #4a7c59;
+  --success: #9B59D0;
   --warning: hsl(38, 92%, 50%);
   --error: hsl(0, 70%, 50%);
 }
@@ -45,19 +45,19 @@
   --card-foreground: hsl(0, 0%, 95%);
   --border: hsl(0, 0%, 25%);
   --input: hsl(0, 0%, 25%);
-  --primary: #4a7c59;
-  --primary-foreground: #ffffff;
-  --secondary: #6b9b7a;
-  --secondary-foreground: #ffffff;
-  --accent: #8bb89e;
-  --accent-foreground: #1a1a1a;
+  --primary: #C59FE6;
+  --primary-foreground: #000000;
+  --secondary: #F4C430;
+  --secondary-foreground: #000000;
+  --accent: #9B59D0;
+  --accent-foreground: #ffffff;
   --destructive: hsl(0, 70%, 50%);
   --destructive-foreground: #ffffff;
-  --ring: hsl(120, 35%, 45%);
+  --ring: #C59FE6;
   
   /* Dark mode custom colors */
   --surface: hsl(0, 0%, 12%);
-  --success: #6b9b7a;
+  --success: #C59FE6;
   --warning: hsl(38, 92%, 50%);
   --error: hsl(0, 70%, 50%);
 }
@@ -86,27 +86,27 @@
     background-color: var(--surface);
   }
 
-  /* Enhanced button styling with natural brand colors */
+  /* Enhanced button styling with vibrant brand colors */
   .btn-brand-primary {
-    background-color: #1a4d2e !important;
+    background-color: #9B59D0 !important;
     color: #ffffff !important;
-    border: 1px solid #1a4d2e !important;
+    border: 1px solid #9B59D0 !important;
   }
   
   .btn-brand-primary:hover {
-    background-color: #143d24 !important;
-    border-color: #143d24 !important;
+    background-color: #7B3FB0 !important;
+    border-color: #7B3FB0 !important;
   }
   
   .btn-brand-secondary {
-    background-color: #4a7c59 !important;
-    color: #ffffff !important;
-    border: 1px solid #4a7c59 !important;
+    background-color: #F4C430 !important;
+    color: #000000 !important;
+    border: 1px solid #F4C430 !important;
   }
   
   .btn-brand-secondary:hover {
-    background-color: #3d6749 !important;
-    border-color: #3d6749 !important;
+    background-color: #D4A810 !important;
+    border-color: #D4A810 !important;
   }
   
   .text-primary {

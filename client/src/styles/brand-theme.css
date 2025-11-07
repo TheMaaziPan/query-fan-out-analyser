@@ -1,10 +1,10 @@
 /* Brand Theme Variables */
 :root {
-  /* Brand Colors - Natural professional palette */
-  --brand-primary: #1a4d2e;        /* Deep forest green */
-  --brand-primary-hover: #143d24;  /* Darker forest for hover */
-  --brand-secondary: #4a7c59;      /* Sage green secondary */
-  --brand-accent: #6b9b7a;         /* Natural green accent */
+  /* Brand Colors - Bold purple, yellow, and black palette */
+  --brand-primary: #9B59D0;        /* Vibrant purple */
+  --brand-primary-hover: #7B3FB0;  /* Darker purple for hover */
+  --brand-secondary: #F4C430;      /* Golden yellow secondary */
+  --brand-accent: #C59FE6;         /* Light purple accent */
   
   /* Neutral Colors - Based on your palette */
   --brand-neutral-50: white;           /* Pure white */
@@ -16,7 +16,7 @@
   --brand-neutral-600: #424242;        /* Dark grey */
   --brand-neutral-700: #303030;        /* Very dark grey */
   --brand-neutral-800: #1a1818;        /* Dark grey */
-  --brand-neutral-900: #1a4d2e;        /* Primary forest green */
+  --brand-neutral-900: #000000;        /* Black for emphasis */
   
   /* Typography */
   --brand-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -27,11 +27,11 @@
   --brand-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
   --brand-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   
-  /* Status Colors - Natural palette */
-  --brand-success: #4a7c59;        /* Sage green for success */
-  --brand-warning: #f59e0b;        /* Amber for warnings */
+  /* Status Colors - Vibrant palette */
+  --brand-success: #9B59D0;        /* Purple for success */
+  --brand-warning: #F4C430;        /* Golden yellow for warnings */
   --brand-error: #dc2626;          /* Red for errors */
-  --brand-info: #1a4d2e;           /* Forest green for info */
+  --brand-info: #9B59D0;           /* Purple for info */
 }
 
 /* Apply brand colors to existing CSS variables */
@@ -56,23 +56,23 @@
 /* Brand-specific component styles */
 .brand-header {
   background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-primary-hover) 100%);
-  color: var(--brand-accent);
+  color: white;
 }
 
 .brand-button-primary {
   background: var(--brand-primary);
-  color: var(--brand-accent);
+  color: white;
   border-radius: var(--brand-radius);
   box-shadow: var(--brand-shadow);
   transition: all 0.2s ease-in-out;
-  border: 1px solid var(--brand-accent);
+  border: 1px solid var(--brand-primary);
 }
 
 .brand-button-primary:hover {
   background: var(--brand-primary-hover);
   box-shadow: var(--brand-shadow-lg);
   transform: translateY(-1px);
-  color: var(--brand-accent);
+  color: white;
 }
 
 /* Enhanced brand styling for your color palette */
@@ -82,7 +82,7 @@
 
 .brand-primary-bg {
   background-color: var(--brand-primary);
-  color: var(--brand-accent);
+  color: white;
 }
 
 .brand-dark-card {
